@@ -47,17 +47,17 @@ export default function Hero() {
       <div className="w-screen">
         <Canvas>
           <group position={[-2, 0.3, 3]}>
-            <Text fontSize={0.4} color={"#D8C3A5"}>
+            <Text fontSize={0.4} color={"#e85a4f"} material-toneMapped={false}>
               SolveSimply.
             </Text>
             <group position={[0, -0.5, 0]} onClick={handleClick}>
-              <Text fontSize={0.08} color={"silver"} >
+              <Text fontSize={0.08} color={"#e85a4f"} material-toneMapped={false}>
                 Get Started
               </Text>
               <mesh scale={[0.5, 0.15, 1]}>
                 <planeGeometry />
                 <meshBasicMaterial
-                  color={"#e85a4f"}
+                  color={"#D8C3A5"}
                   opacity={0.3}
                   depthWrite={false}
                 />
