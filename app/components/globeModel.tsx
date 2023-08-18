@@ -8,8 +8,9 @@ Title: Earth Hologram
 */
 import * as THREE from 'three'
 import React, { useEffect, useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF, useAnimations, useScroll } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
+import { useFrame, useThree } from '@react-three/fiber'
 
 
 type ActionName = 'Action' | 'Sphere.002Action.001'
@@ -31,18 +32,17 @@ export default function Model(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>(null)
   const { nodes, materials, animations } = useGLTF('/globe/scene.gltf') as GLTFResult
   const { actions } = useAnimations(animations, group)
-  const material = new THREE.MeshStandardMaterial({color: 0xff0000, emissive: 0xe85a4f});
-
-
-  console.log(actions)
+ 
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={group} {...props} dispose={null} name='globe'>
       <group name="Sketchfab_Scene">
         <group name="Sketchfab_model" rotation={[-Math.PI / 2, -0.2, 0]}>
           <group name="root">
             <group name="GLTF_SceneRootNode" rotation={[Math.PI / 2, 0, 0]}>
               <group name="Sphere002_0">
-                <mesh name="Object_4" geometry={nodes.Object_4.geometry} material={material}/>
+                <mesh name="Object_4" geometry={nodes.Object_4.geometry}>
+                  <meshStandardMaterial color={0xff0000} emissive={0xe85a4f}/>
+                </mesh>
               </group>
             </group>
           </group>
