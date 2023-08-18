@@ -3,13 +3,17 @@ import React, { useState, useEffect, SyntheticEvent, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import Globe from "./globeModel";
 import * as THREE from "three";
-import { ScrollControls, CameraControls, useScroll } from "@react-three/drei";
+import { ScrollControls, Text } from "@react-three/drei";
 import ScrollManager from "./ScrollManager";
 
 export default function Hero() {
   const [scale, setScale] = useState(4);
   const [position, setPosition] = useState([0, 0, 0]);
   const aspectThreshold = 1.2;
+
+  const handleClick = () => {
+    // button click
+  }
 
   useEffect(() => {
     const updateScaleAndPosition = () => {
@@ -42,12 +46,29 @@ export default function Hero() {
     <div className="flex h-screen">
       <div className="w-screen">
         <Canvas>
-          
-          <ScrollControls damping={0.1}>
+          <group position={[-2, 0.3, 3]}>
+            <Text fontSize={0.4} color={"#D8C3A5"}>
+              SolveSimply.
+            </Text>
+            <group position={[0, -0.5, 0]} onClick={handleClick}>
+              <Text fontSize={0.08} color={"silver"} >
+                Get Started
+              </Text>
+              <mesh scale={[0.5, 0.15, 1]}>
+                <planeGeometry />
+                <meshBasicMaterial
+                  color={"#e85a4f"}
+                  opacity={0.3}
+                  depthWrite={false}
+                />
+              </mesh>
+            </group>
+          </group>
+
+          <ScrollControls damping={0.25}>
             <Globe scale={scale} position={vectorPosition} />
-            <ScrollManager/>
+            <ScrollManager />
           </ScrollControls>
-          
         </Canvas>
       </div>
     </div>
