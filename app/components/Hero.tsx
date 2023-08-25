@@ -2,18 +2,21 @@
 import React, { useState, useEffect, SyntheticEvent, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import Globe from "./globeModel";
+import Plane from "./Paper_plane";
 import * as THREE from "three";
-import { ScrollControls, Text } from "@react-three/drei";
+import { CameraControls, Float, ScrollControls, Text } from "@react-three/drei";
 import ScrollManager from "./ScrollManager";
 
 export default function Hero() {
   const [scale, setScale] = useState(4);
   const [position, setPosition] = useState([0, 0, 0]);
+  const [hovered, setHovered] = useState(false);
   const aspectThreshold = 1.2;
+  const ref = useRef<THREE.Mesh>(null);
 
   const handleClick = () => {
     // button click
-  }
+  };
 
   useEffect(() => {
     const updateScaleAndPosition = () => {
@@ -35,6 +38,10 @@ export default function Hero() {
     };
   }, []);
 
+  useEffect(() => {
+    document.body.style.cursor = hovered ? "pointer" : "auto";
+  }, [hovered]);
+
   // Convert the array position to Vector3 before passing it to the Globe component
   const vectorPosition = new THREE.Vector3(
     position[0],
@@ -45,16 +52,22 @@ export default function Hero() {
   return (
     <div className="flex h-screen">
       <div className="w-screen">
-        <Canvas>
+        <Canvas flat>
+          <ambientLight />
+          <pointLight position={[0, 0, 0]} intensity={1.8} />
           <group position={[-2, 0.3, 3]}>
-            <Text fontSize={0.4} color={"#e85a4f"} material-toneMapped={false}>
+            <Text fontSize={0.4} color={"#e85a4f"}>
               SolveSimply.
             </Text>
             <group position={[0, -0.5, 0]} onClick={handleClick}>
-              <Text fontSize={0.08} color={"#e85a4f"} material-toneMapped={false}>
+              <Text fontSize={0.08} color={"white"}>
                 Get Started
               </Text>
-              <mesh scale={[0.5, 0.15, 1]}>
+              <mesh
+                scale={[0.5, 0.15, 1]}
+                onPointerOver={() => setHovered(true)}
+                onPointerOut={() => setHovered(false)}
+              >
                 <planeGeometry />
                 <meshBasicMaterial
                   color={"#D8C3A5"}

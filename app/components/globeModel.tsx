@@ -6,50 +6,68 @@ License: CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
 Source: https://sketchfab.com/3d-models/earth-hologram-1ec23b9e71724a3499a29334c7318909
 Title: Earth Hologram
 */
-import * as THREE from 'three'
-import React, { useEffect, useRef } from 'react'
-import { useGLTF, useAnimations, useScroll } from '@react-three/drei'
-import { GLTF } from 'three-stdlib'
-import { useFrame, useThree } from '@react-three/fiber'
+import * as THREE from "three";
+import React, { useEffect, useRef } from "react";
+import { useGLTF, Trail } from "@react-three/drei";
+import { GLTF } from "three-stdlib";
+import { useFrame } from "@react-three/fiber";
+import Plane from "./Paper_plane";
 
-
-type ActionName = 'Action' | 'Sphere.002Action.001'
+type ActionName = "Action" | "Sphere.002Action.001";
 interface GLTFAction extends THREE.AnimationClip {
- name: ActionName;
+  name: ActionName;
 }
 
 type GLTFResult = GLTF & {
   nodes: {
-    Object_4: THREE.Mesh
-  }
+    Object_4: THREE.Mesh;
+  };
   materials: {
-    Arestas: THREE.MeshStandardMaterial
-  }
-  animations: GLTFAction[]
-}
+    Arestas: THREE.MeshStandardMaterial;
+  };
+  animations: GLTFAction[];
+};
 
-export default function Model(props: JSX.IntrinsicElements['group']) {
-  const group = useRef<THREE.Group>(null)
-  const { nodes, materials, animations } = useGLTF('/globe/scene.gltf') as GLTFResult
-  const { actions } = useAnimations(animations, group)
- 
+export default function Model(props: JSX.IntrinsicElements["group"]) {
+  const group = useRef<THREE.Group>(null);
+  const { nodes } = useGLTF("/globe/scene.gltf") as GLTFResult;
+
+  useFrame((_, delta) => {
+    const globe = group.current!.children[0];
+    const plane1 = globe.children[0];
+    const plane2 = globe.children[1];
+
+    globe.rotateY(0.1 * delta);
+
+    plane1.rotateY(-1.8 * delta);
+    plane1.rotateX(delta);
+
+    plane2.rotateY(1.8 * delta);
+  });
+
   return (
-    <group ref={group} {...props} dispose={null} name='globe'>
-      <group name="Sketchfab_Scene">
-        <group name="Sketchfab_model" rotation={[-Math.PI / 2, -0.2, 0]}>
-          <group name="root">
-            <group name="GLTF_SceneRootNode" rotation={[Math.PI / 2, 0, 0]}>
-              <group name="Sphere002_0">
-                <mesh name="Object_4" geometry={nodes.Object_4.geometry}>
-                  <meshStandardMaterial color={0xff0000} emissive={0xe85a4f}/>
-                </mesh>
-              </group>
-            </group>
-          </group>
-        </group>
-      </group>
+    <group
+      ref={group}
+      {...props}
+      dispose={null}
+      name="globe"
+      rotation={[0, 0, 0.2]}
+    >
+      <mesh name="Object_4" geometry={nodes.Object_4.geometry}>
+        <meshBasicMaterial color={0xe85a4f} />
+        <mesh scale={0.99} name="sphere_interior">
+          <sphereGeometry />
+          <meshBasicMaterial color={0xeae7dc} />
+          <Plane position={[-2.6, -2, 0]} />
+        </mesh>
+        <mesh scale={0.99} name="sphere_interior" rotation={[0, 0, -0.3]}>
+          <sphereGeometry />
+          <meshBasicMaterial color={0xeae7dc} />
+          <Plane position={[3.2, -2, 0]} />
+        </mesh>
+      </mesh>
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/globe/scene.gltf')
+useGLTF.preload("/globe/scene.gltf");
