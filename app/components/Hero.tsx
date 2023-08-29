@@ -9,10 +9,10 @@ import ScrollManager from "./ScrollManager";
 
 export default function Hero() {
   const [scale, setScale] = useState(4);
-  const [position, setPosition] = useState([0, 0, 0]);
+  const [globePosition, setGlobePosition] = useState([0, 0, 0]);
+  const [heroPosition, setHeroPosition] = useState([0, 0, 0]);
   const [hovered, setHovered] = useState(false);
   const aspectThreshold = 1.2;
-  const ref = useRef<THREE.Mesh>(null);
 
   const handleClick = () => {
     // button click
@@ -24,10 +24,10 @@ export default function Hero() {
       let newScale = Math.pow(aspect, 0.45) * 2.5;
       newScale = aspect < 1.2 ? newScale + 0.5 : newScale;
       setScale(newScale);
-
-      const newPosition =
-        aspect < aspectThreshold ? [0, -2.5, 0] : [3, -0.4, 0];
-      setPosition(newPosition);
+      
+      const heroX = -window.innerWidth / window.innerHeight + 0.3;
+      setHeroPosition(aspect < aspectThreshold ? [0, 1, 3] : [heroX, 0.3, 3])
+      setGlobePosition(aspect < aspectThreshold ? [0, -2.5, 0] : [3, -0.4, 0]);
     };
 
     updateScaleAndPosition();
@@ -43,10 +43,16 @@ export default function Hero() {
   }, [hovered]);
 
   // Convert the array position to Vector3 before passing it to the Globe component
-  const vectorPosition = new THREE.Vector3(
-    position[0],
-    position[1],
-    position[2]
+  const vectorGlobePosition = new THREE.Vector3(
+    globePosition[0],
+    globePosition[1],
+    globePosition[2]
+  );
+
+  const vectorHeroPosition = new THREE.Vector3(
+    heroPosition[0],
+    heroPosition[1],
+    heroPosition[2]
   );
 
   return (
@@ -55,7 +61,7 @@ export default function Hero() {
         <Canvas flat>
           <ambientLight />
           <pointLight position={[0, 0, 0]} intensity={1.8} />
-          <group position={[-2, 0.3, 3]}>
+          <group scale={scale*0.25} position={vectorHeroPosition}>
             <Text fontSize={0.4} color={"#e85a4f"}>
               SolveSimply.
             </Text>
@@ -64,7 +70,7 @@ export default function Hero() {
                 Get Started
               </Text>
               <mesh
-                scale={[0.5, 0.15, 1]}
+                scale={[0.5, 0.15, 1.1]}
                 onPointerOver={() => setHovered(true)}
                 onPointerOut={() => setHovered(false)}
               >
@@ -79,7 +85,7 @@ export default function Hero() {
           </group>
 
           <ScrollControls damping={0.25}>
-            <Globe scale={scale} position={vectorPosition} />
+            <Globe scale={scale} position={vectorGlobePosition} />
             <ScrollManager />
           </ScrollControls>
         </Canvas>
