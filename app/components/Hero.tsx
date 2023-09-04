@@ -1,11 +1,8 @@
 "use client";
-import React, { useState, useEffect, SyntheticEvent, useRef } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import React, { useState, useEffect } from "react";
 import Globe from "./globeModel";
-import Plane from "./Paper_plane";
 import * as THREE from "three";
-import { CameraControls, Float, ScrollControls, Text } from "@react-three/drei";
-import ScrollManager from "./ScrollManager";
+import { Text } from "@react-three/drei";
 
 export default function Hero() {
   const [scale, setScale] = useState(4);
@@ -13,7 +10,7 @@ export default function Hero() {
   const [heroPosition, setHeroPosition] = useState([0, 0, 0]);
   const [hovered, setHovered] = useState(false);
   const aspectThreshold = 1.2;
-  
+
   const title = "SolveSimply";
   const subTitle = "Real Estate Tech Experts";
 
@@ -27,9 +24,9 @@ export default function Hero() {
       let newScale = Math.pow(aspect, 0.45) * 2.5;
       newScale = aspect < 1.2 ? newScale + 0.5 : newScale;
       setScale(newScale);
-      
+
       const heroX = -window.innerWidth / window.innerHeight + 0.3;
-      setHeroPosition(aspect < aspectThreshold ? [0, 1, 3] : [heroX, 0.3, 3])
+      setHeroPosition(aspect < aspectThreshold ? [0, 1, 3] : [heroX, 0.3, 3]);
       setGlobePosition(aspect < aspectThreshold ? [0, -2.5, 0] : [3, -0.4, 0]);
     };
 
@@ -59,43 +56,36 @@ export default function Hero() {
   );
 
   return (
-    <div className="flex h-screen">
-      <div className="w-screen">
-        <Canvas flat>
-          <ambientLight />
-          <pointLight position={[0, 0, 0]} intensity={1.8} />
-          <group scale={scale*0.25} position={vectorHeroPosition}>
-            <Text fontSize={0.4} color={"#e85a4f"}>
-              {title}
-            </Text>
-            <Text fontSize={0.12} position={[0, -0.3, 0]} color={"#E98074"}>
-              {subTitle}
-            </Text>
-            <group position={[0, -0.7, 0]} onClick={handleClick}>
-              <Text fontSize={0.08} color={"white"}>
-                Get Started
-              </Text>
-              <mesh
-                scale={[0.5, 0.15, 1.1]}
-                onPointerOver={() => setHovered(true)}
-                onPointerOut={() => setHovered(false)}
-              >
-                <planeGeometry />
-                <meshBasicMaterial
-                  color={"#D8C3A5"}
-                  opacity={0.3}
-                  depthWrite={false}
-                />
-              </mesh>
-            </group>
-          </group>
+    <group name="HeroScene">
+      <ambientLight />
+      <pointLight position={[0, 0, 0]} intensity={1.8} />
+      <group scale={scale * 0.25} position={vectorHeroPosition}>
+        <Text fontSize={0.4} color={"#e85a4f"}>
+          {title}
+        </Text>
+        <Text fontSize={0.12} position={[0, -0.3, 0]} color={"#E98074"}>
+          {subTitle}
+        </Text>
+        <group position={[0, -0.7, 0]} onClick={handleClick}>
+          <Text fontSize={0.08} color={"white"}>
+            Get Started
+          </Text>
+          <mesh
+            scale={[0.5, 0.15, 1.1]}
+            onPointerOver={() => setHovered(true)}
+            onPointerOut={() => setHovered(false)}
+          >
+            <planeGeometry />
+            <meshBasicMaterial
+              color={"#D8C3A5"}
+              opacity={0.3}
+              depthWrite={false}
+            />
+          </mesh>
+        </group>
+      </group>
 
-          <ScrollControls damping={0.25}>
-            <Globe scale={scale} position={vectorGlobePosition} />
-            <ScrollManager />
-          </ScrollControls>
-        </Canvas>
-      </div>
-    </div>
+      <Globe scale={scale} position={vectorGlobePosition} />
+    </group>
   );
 }

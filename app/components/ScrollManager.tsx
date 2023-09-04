@@ -34,9 +34,10 @@ export default function ScrollManager(props: any) {
     return position;
   };
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     const t = scroll.offset;
-    const globe = scene.children.find((item) => item.name === "globe")
+    const canvas = scene.children;
+    const globe = canvas[0].children.find((item) => item.name === "globe")
 
     const groupPosition = globe!.position;
 
