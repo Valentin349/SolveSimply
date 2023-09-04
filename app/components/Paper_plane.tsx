@@ -19,14 +19,14 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
   return (
     <mesh scale={0.4}>
       <group {...props} scale={0.02} rotation={[-Math.PI, 0, 0]}>
-      <mesh
-        ref={planeRef}
-        geometry={nodes.Object_2.geometry}
-        position={[0, -50, 0]}
-      >
-        <meshStandardMaterial color={"#E98074"} />
-      </mesh>
-    </group>
+        <mesh
+          ref={planeRef}
+          geometry={nodes.Object_2.geometry}
+          position={[0, -50, 0]}
+        >
+          <meshStandardMaterial color={"#E98074"} />
+        </mesh>
+      </group>
     </mesh>
   );
 }

@@ -13,6 +13,9 @@ export default function Hero() {
   const [heroPosition, setHeroPosition] = useState([0, 0, 0]);
   const [hovered, setHovered] = useState(false);
   const aspectThreshold = 1.2;
+  
+  const title = "SolveSimply";
+  const subTitle = "Real Estate Tech Experts";
 
   const handleClick = () => {
     // button click
@@ -63,9 +66,12 @@ export default function Hero() {
           <pointLight position={[0, 0, 0]} intensity={1.8} />
           <group scale={scale*0.25} position={vectorHeroPosition}>
             <Text fontSize={0.4} color={"#e85a4f"}>
-              SolveSimply.
+              {title}
             </Text>
-            <group position={[0, -0.5, 0]} onClick={handleClick}>
+            <Text fontSize={0.12} position={[0, -0.3, 0]} color={"#E98074"}>
+              {subTitle}
+            </Text>
+            <group position={[0, -0.7, 0]} onClick={handleClick}>
               <Text fontSize={0.08} color={"white"}>
                 Get Started
               </Text>
