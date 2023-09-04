@@ -1,10 +1,16 @@
 import { useScroll } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
+import { RootState, useFrame, useThree } from "@react-three/fiber";
+import { stat } from "fs";
+import { Fauna_One } from "next/font/google";
 import * as THREE from "three";
 
 export default function ScrollManager(props: any) {
   const scroll = useScroll();
   const scene = useThree((state) => state.scene);
+
+  const resetCamera = (state: RootState) => {
+    state.camera.position.set(0,0,5);
+  };
 
   const brazierCurve = (
     t: number,
@@ -33,10 +39,22 @@ export default function ScrollManager(props: any) {
     return position;
   };
 
-  useFrame((state) => {
-    const t = scroll.offset;
-    const canvas = scene.children;
-    const globe = canvas[0].children.find((item) => item.name === "globe")
+  const updateGlobeScene = (state: RootState) => {
+    const heroScene = scene.children;
+    if (scroll.offset >= 0.5){
+      heroScene[0].visible = false;
+      resetCamera(state);
+      return;  
+    }
+    
+    heroScene[0].visible = true;
+
+    const heroScrollRange = scroll.range(0, 1/2)
+
+    const t = heroScrollRange;
+    
+
+    const globe = heroScene[0].children.find((item) => item.name === "globe")
 
     const groupPosition = globe!.position;
 
@@ -60,6 +78,10 @@ export default function ScrollManager(props: any) {
     state.camera.lookAt(
       brazierCurve(t + 0.01, startPoint, controlPoint1, controlPoint2, endPoint)
     );
+  };
+
+  useFrame((state) => {
+    updateGlobeScene(state);
   });
   
   return null;

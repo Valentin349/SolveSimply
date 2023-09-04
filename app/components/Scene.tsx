@@ -12,7 +12,7 @@ export default function Scene() {
         <Canvas flat>
           <Hero />
 
-          <ScrollControls>
+          <ScrollControls damping={0.2} pages={2}>
             <ScrollManager/>
           </ScrollControls>
         </Canvas>
