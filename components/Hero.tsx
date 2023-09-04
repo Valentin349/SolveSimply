@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Globe from "./globeModel";
+import Globe from "./GlobeModel";
 import * as THREE from "three";
 import { Text } from "@react-three/drei";
 

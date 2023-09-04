@@ -11,7 +11,7 @@ import React, { useEffect, useRef } from "react";
 import { useGLTF, Trail } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { useFrame } from "@react-three/fiber";
-import Plane from "./Paper_plane";
+import Plane from "./PaperPlane";
 
 type ActionName = "Action" | "Sphere.002Action.001";
 interface GLTFAction extends THREE.AnimationClip {
