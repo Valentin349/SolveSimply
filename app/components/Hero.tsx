@@ -11,7 +11,7 @@ export default function Hero() {
   const [hovered, setHovered] = useState(false);
   const aspectThreshold = 1.2;
 
-  const title = "SolveSimply";
+  const title = "SolveSimply.";
   const subTitle = "Real Estate Tech Experts";
 
   const handleClick = () => {

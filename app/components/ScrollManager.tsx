@@ -1,6 +1,5 @@
 import { useScroll } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
-import { it } from "node:test";
 import * as THREE from "three";
 
 export default function ScrollManager(props: any) {
@@ -62,5 +61,6 @@ export default function ScrollManager(props: any) {
       brazierCurve(t + 0.01, startPoint, controlPoint1, controlPoint2, endPoint)
     );
   });
+  
   return null;
 }
