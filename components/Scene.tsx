@@ -2,8 +2,9 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
 import Hero from "./Hero";
-import { ScrollControls } from "@react-three/drei";
+import { CameraControls, ScrollControls } from "@react-three/drei";
 import ScrollManager from "./ScrollManager";
+import DeviceScene from "./DeviceScene";
 
 export default function Scene() {
   return (
@@ -11,9 +12,9 @@ export default function Scene() {
       <div className="w-screen">
         <Canvas flat>
           <Hero />
-
+          <DeviceScene />
           <ScrollControls damping={0.2} pages={2}>
-            <ScrollManager/>
+            <ScrollManager />
           </ScrollControls>
         </Canvas>
       </div>

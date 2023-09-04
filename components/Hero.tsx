@@ -56,7 +56,7 @@ export default function Hero() {
   );
 
   return (
-    <group name="HeroScene">
+    <group name="HeroScene" >
       <ambientLight />
       <pointLight position={[0, 0, 0]} intensity={1.8} />
       <group scale={scale * 0.25} position={vectorHeroPosition}>

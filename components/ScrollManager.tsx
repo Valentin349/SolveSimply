@@ -1,7 +1,5 @@
 import { useScroll } from "@react-three/drei";
 import { RootState, useFrame, useThree } from "@react-three/fiber";
-import { stat } from "fs";
-import { Fauna_One } from "next/font/google";
 import * as THREE from "three";
 
 export default function ScrollManager(props: any) {
@@ -10,6 +8,7 @@ export default function ScrollManager(props: any) {
 
   const resetCamera = (state: RootState) => {
     state.camera.position.set(0,0,5);
+    state.camera.lookAt(0,0,0);
   };
 
   const brazierCurve = (
@@ -41,13 +40,17 @@ export default function ScrollManager(props: any) {
 
   const updateGlobeScene = (state: RootState) => {
     const heroScene = scene.children;
+    console.log(heroScene);
     if (scroll.offset >= 0.5){
       heroScene[0].visible = false;
       resetCamera(state);
+      heroScene[1].visible = true;
+      
       return;  
     }
     
     heroScene[0].visible = true;
+    heroScene[1].visible = false;
 
     const heroScrollRange = scroll.range(0, 1/2)
 
