@@ -2,45 +2,45 @@ import { useScroll } from "@react-three/drei";
 import { RootState, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
-export default function ScrollManager(props: any) {
+const brazierCurve = (
+  t: number,
+  startPoint: THREE.Vector3,
+  controlPoint1: THREE.Vector3,
+  controlPoint2: THREE.Vector3,
+  endPoint: THREE.Vector3
+) => {
+  const position = new THREE.Vector3();
+  position.x =
+    (1 - t) ** 3 * startPoint.x +
+    3 * (1 - t) ** 2 * t * controlPoint1.x +
+    3 * (1 - t) * t ** 2 * controlPoint2.x +
+    t ** 3 * endPoint.x;
+  position.y =
+    (1 - t) ** 3 * startPoint.y +
+    3 * (1 - t) ** 2 * t * controlPoint1.y +
+    3 * (1 - t) * t ** 2 * controlPoint2.y +
+    t ** 3 * endPoint.y;
+  position.z =
+    (1 - t) ** 3 * startPoint.z +
+    3 * (1 - t) ** 2 * t * controlPoint1.z +
+    3 * (1 - t) * t ** 2 * controlPoint2.z +
+    t ** 3 * endPoint.z;
+
+  return position;
+};
+
+const resetCamera = (state: RootState) => {
+  state.camera.position.set(0,0,5);
+  state.camera.lookAt(0,0,0);
+};
+
+export default function ScrollManager() {
   const scroll = useScroll();
   const scene = useThree((state) => state.scene);
 
-  const resetCamera = (state: RootState) => {
-    state.camera.position.set(0,0,5);
-    state.camera.lookAt(0,0,0);
-  };
-
-  const brazierCurve = (
-    t: number,
-    startPoint: THREE.Vector3,
-    controlPoint1: THREE.Vector3,
-    controlPoint2: THREE.Vector3,
-    endPoint: THREE.Vector3
-  ) => {
-    const position = new THREE.Vector3();
-    position.x =
-      (1 - t) ** 3 * startPoint.x +
-      3 * (1 - t) ** 2 * t * controlPoint1.x +
-      3 * (1 - t) * t ** 2 * controlPoint2.x +
-      t ** 3 * endPoint.x;
-    position.y =
-      (1 - t) ** 3 * startPoint.y +
-      3 * (1 - t) ** 2 * t * controlPoint1.y +
-      3 * (1 - t) * t ** 2 * controlPoint2.y +
-      t ** 3 * endPoint.y;
-    position.z =
-      (1 - t) ** 3 * startPoint.z +
-      3 * (1 - t) ** 2 * t * controlPoint1.z +
-      3 * (1 - t) * t ** 2 * controlPoint2.z +
-      t ** 3 * endPoint.z;
-
-    return position;
-  };
-
+  
   const updateGlobeScene = (state: RootState) => {
     const heroScene = scene.children;
-    console.log(heroScene);
     if (scroll.offset >= 0.5){
       heroScene[0].visible = false;
       resetCamera(state);

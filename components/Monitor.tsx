@@ -9,7 +9,7 @@ Title: Computer Monitor Lowpoly Model
 
 import * as THREE from "three";
 import React, { useEffect, useRef } from "react";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useHelper } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { RectAreaLightHelper } from "three/addons/helpers/RectAreaLightHelper.js";
 import { useThree } from "@react-three/fiber";
@@ -30,19 +30,8 @@ type GLTFResult = GLTF & {
 };
 
 export default function Model(props: JSX.IntrinsicElements["group"]) {
-  const { nodes, materials } = useGLTF("/monitor.glb") as GLTFResult;
-  const { scene } = useThree();
-  
-
-  const addScreenLight = () => {
-    const areaLight = new THREE.RectAreaLight("white", 2.0, 3.55, 1.85);
-    areaLight.lookAt(0, 0, 5);
-    areaLight.position.set(-0.2, 0.45, 2.26);
-
-    scene.add(areaLight);
-  };
-
-
+  const { nodes, materials } = useGLTF("/monitor.glb") as GLTFResult;  
+    
   return (
     <group>
       <group {...props} dispose={null} position={[-0.2, -1, 2.5]}>
