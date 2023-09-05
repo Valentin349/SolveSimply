@@ -11,12 +11,11 @@ export default function Scene() {
     <div className="flex h-screen">
       <div className="w-screen">
         <Canvas flat>
-          {/* <Hero /> */}
+          <Hero />
           <DeviceScene />
           <ScrollControls damping={0.2} pages={2}>
-            {/* <ScrollManager /> */}
+            <ScrollManager />
           </ScrollControls>
-          <CameraControls></CameraControls>
         </Canvas>
       </div>
     </div>

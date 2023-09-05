@@ -1,5 +1,6 @@
 import { useScroll } from "@react-three/drei";
 import { RootState, useFrame, useThree } from "@react-three/fiber";
+import { stat } from "fs";
 import * as THREE from "three";
 
 const brazierCurve = (
@@ -30,34 +31,18 @@ const brazierCurve = (
 };
 
 const resetCamera = (state: RootState) => {
-  state.camera.position.set(0,0,5);
-  state.camera.lookAt(0,0,0);
+  state.camera.position.set(0, 0, 5);
+  state.camera.lookAt(0, 0, 0);
 };
 
 export default function ScrollManager() {
   const scroll = useScroll();
   const scene = useThree((state) => state.scene);
 
-  
-  const updateGlobeScene = (state: RootState) => {
-    const heroScene = scene.children;
-    if (scroll.offset >= 0.5){
-      heroScene[0].visible = false;
-      resetCamera(state);
-      heroScene[1].visible = true;
-      
-      return;  
-    }
-    
-    heroScene[0].visible = true;
-    heroScene[1].visible = false;
+  const updateGlobeScene = (state: RootState, scroll: number) => {
+    const heroScene = scene.children[0];
 
-    const heroScrollRange = scroll.range(0, 1/2)
-
-    const t = heroScrollRange;
-    
-
-    const globe = heroScene[0].children.find((item) => item.name === "globe")
+    const globe = heroScene.children.find((item) => item.name === "globe");
 
     const groupPosition = globe!.position;
 
@@ -75,17 +60,68 @@ export default function ScrollManager() {
     const endPoint = groupPosition;
 
     state.camera.position.copy(
-      brazierCurve(t, startPoint, controlPoint1, controlPoint2, endPoint)
+      brazierCurve(
+        scroll,
+        startPoint,
+        controlPoint1,
+        controlPoint2,
+        endPoint
+      )
     );
 
     state.camera.lookAt(
-      brazierCurve(t + 0.01, startPoint, controlPoint1, controlPoint2, endPoint)
+      brazierCurve(
+        scroll + 0.01,
+        startPoint,
+        controlPoint1,
+        controlPoint2,
+        endPoint
+      )
+    );
+  };
+
+  const updateDevicesScene = (state: RootState, scroll: number) => {
+    const deviceScene = scene.children[1]
+
+    const startPoint = new THREE.Vector3(0, 8, 9);
+    const controlPoint1 = new THREE.Vector3(0, 1, 7);
+    const endPoint = new THREE.Vector3(0, 0, 5);
+
+    state.camera.position.copy(
+      brazierCurve(
+        scroll,
+        startPoint,
+        controlPoint1,
+        controlPoint1,
+        endPoint
+      )
+    );
+
+    state.camera.lookAt(
+      brazierCurve(
+        scroll,
+        startPoint,
+        controlPoint1,
+        controlPoint1,
+        endPoint
+      )
     );
   };
 
   useFrame((state) => {
-    updateGlobeScene(state);
+    const heroScrollRange = scroll.range(0, 1 / 2);
+    const deviceScrollRange = scroll.range(1/2, 1/2);
+
+    if (heroScrollRange < 1) {
+      scene.children[0].visible = true;
+      scene.children[1].visible = false;
+      updateGlobeScene(state, heroScrollRange);
+    } else {
+      scene.children[0].visible = false;
+      scene.children[1].visible = true;
+      updateDevicesScene(state, deviceScrollRange);
+    }
   });
-  
+
   return null;
 }
