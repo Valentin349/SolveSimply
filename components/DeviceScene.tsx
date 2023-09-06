@@ -40,7 +40,7 @@ export default function DeviceScene() {
 
   return (
     <group name="DeviceScene" scale={scale}>
-      <ambientLight />
+      <ambientLight intensity={0.5}/>
       <group position={[0.3, 0, 0]}>
         <rectAreaLight
           rotation={[0, Math.PI, 0]}

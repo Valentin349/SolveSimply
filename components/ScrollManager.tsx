@@ -82,6 +82,9 @@ export default function ScrollManager() {
 
   const updateDevicesScene = (state: RootState, scroll: number) => {
     const deviceScene = scene.children[1]
+    const screen = deviceScene.children[1].children[1].children[0].children[0].children[1];
+
+    screen.position.y = scroll;
 
     const startPoint = new THREE.Vector3(0, 8, 9);
     const controlPoint1 = new THREE.Vector3(0, 1, 7);
@@ -111,6 +114,8 @@ export default function ScrollManager() {
   useFrame((state) => {
     const heroScrollRange = scroll.range(0, 1 / 2);
     const deviceScrollRange = scroll.range(1/2, 1/2);
+
+
 
     if (heroScrollRange < 1) {
       scene.children[0].visible = true;

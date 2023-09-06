@@ -8,11 +8,11 @@ Title: Computer Monitor Lowpoly Model
 */
 
 import * as THREE from "three";
-import React, { useEffect, useRef } from "react";
-import { useGLTF, useHelper } from "@react-three/drei";
+import React from "react";
+import { Mask, useGLTF, useMask, useScroll } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import { RectAreaLightHelper } from "three/addons/helpers/RectAreaLightHelper.js";
-import { useThree } from "@react-three/fiber";
+import { useFrame, useLoader } from "@react-three/fiber";
+import img from "../public/website_example.png";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -29,16 +29,27 @@ type GLTFResult = GLTF & {
   };
 };
 
+function Screen(props: JSX.IntrinsicElements["mesh"]) {
+  const texture = useLoader(THREE.TextureLoader, img.src);
+  const stencil = useMask(1);
+  return (
+    <mesh {...props} position={[0, -1.9, -0.26]}>
+      <planeGeometry args={[3.8, 8.78, 1]} />
+      <meshBasicMaterial map={texture} {...stencil}/>
+    </mesh>
+  );
+}
+
 export default function Model(props: JSX.IntrinsicElements["group"]) {
-  const { nodes, materials } = useGLTF("/monitor.glb") as GLTFResult;  
-    
+  const { nodes, materials } = useGLTF("/monitor.glb") as GLTFResult;
+
   return (
     <group>
       <group {...props} dispose={null} position={[-0.2, -1, 2.5]}>
         <group position={[0, -0.055, 0.027]}>
-          <mesh geometry={nodes.Object_4.geometry}>
-            <meshStandardMaterial emissive={"#EAE7DC"} />
-          </mesh>
+          <Mask id={1} geometry={nodes.Object_4.geometry}>
+          </Mask>
+          <Screen name="monitorScreen"/>
           <mesh geometry={nodes.Object_5.geometry} material={materials.Main} />
         </group>
         <mesh

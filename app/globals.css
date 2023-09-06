@@ -19,3 +19,7 @@ body {
   color: rgb(var(--foreground-rgb));
   background: var(--background);
 }
+
+.deviceHtml {
+  position: fixed !important;
+}
