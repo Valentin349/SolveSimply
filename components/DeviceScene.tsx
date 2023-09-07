@@ -3,7 +3,6 @@ import Monitor from "./Monitor";
 import { useRef, useState, useEffect } from "react";
 import { Vector3 } from "three";
 
-
 export default function DeviceScene() {
   const groupRef = useRef(); 
   const [scale, setScale] = useState(1); 
@@ -41,6 +40,7 @@ export default function DeviceScene() {
   return (
     <group name="DeviceScene" scale={scale}>
       <ambientLight intensity={0.5}/>
+      
       <group position={[0.3, 0, 0]}>
         <rectAreaLight
           rotation={[0, Math.PI, 0]}
@@ -51,6 +51,7 @@ export default function DeviceScene() {
         />
         <Monitor />
       </group>
+      <pointLight position={[0,0,2]} intensity={1}/>
 
       <Phone position={vectorPhonePosition} />
     </group>

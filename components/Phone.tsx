@@ -7,29 +7,51 @@ Source: https://sketchfab.com/3d-models/iphone-14-low-poly-7940be3cb6044f009e4b1
 Title: Iphone 14 Low Poly
 */
 
-import * as THREE from 'three'
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
-import { GLTF } from 'three-stdlib'
+import * as THREE from "three";
+import React, { useRef } from "react";
+import { Mask, useGLTF, useMask } from "@react-three/drei";
+import { GLTF } from "three-stdlib";
+import { useLoader } from "@react-three/fiber";
+import img from "../public/website_example.png";
 
 type GLTFResult = GLTF & {
   nodes: {
-    Cube_Material001_0: THREE.Mesh
-  }
+    Cube_Material001_0: THREE.Mesh;
+  };
   materials: {
-    ['Material.001']: THREE.MeshStandardMaterial
-  }
+    ["Material.001"]: THREE.MeshStandardMaterial;
+  };
+};
+
+function Screen(props: JSX.IntrinsicElements["mesh"]) {
+  const texture = useLoader(THREE.TextureLoader, img.src);
+  const stencil = useMask(2);
+  return (
+    <mesh {...props} position={[4, -3, 1.7]}>
+      <planeGeometry args={[10, 8.78, 1]} />
+      <meshBasicMaterial /* map={texture} */ color={"red"} {...stencil} />
+    </mesh>
+  );
 }
 
-export default function Model(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/phone.glb') as GLTFResult
+export default function Model(props: JSX.IntrinsicElements["group"]) {
+  const { nodes, materials } = useGLTF("/phone.glb") as GLTFResult;
   return (
     <group {...props} dispose={null}>
-      <group scale={0.01} rotation={[0, Math.PI/4 , 0]}>
-        <mesh geometry={nodes.Cube_Material001_0.geometry} material={materials['Material.001']} position={[13.634, 0, 58.556]} rotation={[-Math.PI/2, 0, 0]} scale={[36.5, 76, 4]} />
+      <group scale={0.01} rotation={[0, Math.PI / 4, 0]}>
+        <mesh
+          geometry={nodes.Cube_Material001_0.geometry}
+          material={materials["Material.001"]}
+          position={[13.634, 0, 58.556]}
+          rotation={[-Math.PI / 2, 0, 0]}
+          scale={[36.5, 76, 4]}
+        >
+          <Mask id={2} position={[0,0,1]} scale={[0.95, 0.98, 0]} geometry={nodes.Cube_Material001_0.geometry}></Mask>
+          <Screen />
+        </mesh>
       </group>
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/phone.glb')
+useGLTF.preload("/phone.glb");
