@@ -35,7 +35,7 @@ function Screen(props: JSX.IntrinsicElements["mesh"]) {
   return (
     <mesh {...props} position={[0, -1.9, -0.26]}>
       <planeGeometry args={[3.8, 8.78, 1]} />
-      <meshBasicMaterial map={texture} {...stencil}/>
+      <meshBasicMaterial map={texture} {...stencil} />
     </mesh>
   );
 }
@@ -45,14 +45,14 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
 
   return (
     <group>
-      <group {...props} dispose={null} position={[-0.2, -1, 2.5]}>
+      <group {...props} dispose={null} position={[-0.3, -1, 2.5]}>
         <group position={[0, -0.055, 0.027]}>
-          <Mask id={1} geometry={nodes.Object_4.geometry}>
-          </Mask>
-          <Screen name="monitorScreen"/>
+          <Mask id={1} geometry={nodes.Object_4.geometry}></Mask>
+          <Screen name="monitorScreen" />
           <mesh geometry={nodes.Object_5.geometry} material={materials.Main} />
         </group>
         <mesh
+          castShadow
           geometry={nodes.Object_7.geometry}
           material={materials.Stand}
           position={[0, -0.055, 0.027]}
@@ -60,6 +60,7 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
           scale={0.272}
         />
         <mesh
+          castShadow
           geometry={nodes.Object_9.geometry}
           material={materials.Main_MAt}
         />

@@ -30,11 +30,6 @@ const brazierCurve = (
   return position;
 };
 
-const resetCamera = (state: RootState) => {
-  state.camera.position.set(0, 0, 5);
-  state.camera.lookAt(0, 0, 0);
-};
-
 export default function ScrollManager() {
   const scroll = useScroll();
   const scene = useThree((state) => state.scene);
@@ -81,10 +76,7 @@ export default function ScrollManager() {
   };
 
   const updateDevicesScene = (state: RootState, scroll: number) => {
-    const deviceScene = scene.children[1]
-    const screen = deviceScene.children[1].children[1].children[0].children[0].children[1];
-
-    screen.position.y = scroll;
+    const deviceScene = scene.children[1];
 
     const startPoint = new THREE.Vector3(0, 8, 9);
     const controlPoint1 = new THREE.Vector3(0, 1, 7);

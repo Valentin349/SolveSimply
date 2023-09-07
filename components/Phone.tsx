@@ -40,13 +40,19 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
     <group {...props} dispose={null}>
       <group scale={0.01} rotation={[0, Math.PI / 4, 0]}>
         <mesh
+          castShadow
           geometry={nodes.Cube_Material001_0.geometry}
           material={materials["Material.001"]}
           position={[13.634, 0, 58.556]}
           rotation={[-Math.PI / 2, 0, 0]}
           scale={[36.5, 76, 4]}
         >
-          <Mask id={2} position={[0,0,1]} scale={[0.95, 0.98, 0]} geometry={nodes.Cube_Material001_0.geometry}></Mask>
+          <Mask
+            id={2}
+            position={[0, 0, 1]}
+            scale={[0.95, 0.98, 0]}
+            geometry={nodes.Cube_Material001_0.geometry}
+          ></Mask>
           <Screen />
         </mesh>
       </group>

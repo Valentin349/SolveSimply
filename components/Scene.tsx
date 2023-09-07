@@ -10,7 +10,8 @@ export default function Scene() {
   return (
     <div className="flex h-screen">
       <div className="w-screen">
-        <Canvas flat>
+        <Canvas shadows flat>
+          <fog attach={"fog"} near={5} far={11} color={"#EAE7DC"} />
           <ScrollControls damping={0.2} pages={2}>
             <Hero />
             <DeviceScene />
