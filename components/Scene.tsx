@@ -2,7 +2,10 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
 import Hero from "./Hero";
-import { CameraControls, Scroll, ScrollControls } from "@react-three/drei";
+import {
+  CameraControls,
+  ScrollControls,
+} from "@react-three/drei";
 import ScrollManager from "./ScrollManager";
 import DeviceScene from "./DeviceScene";
 
@@ -12,7 +15,8 @@ export default function Scene() {
       <div className="w-screen">
         <Canvas shadows flat>
           <fog attach={"fog"} near={5} far={11} color={"#EAE7DC"} />
-          <ScrollControls damping={0.2} pages={2}>
+
+          <ScrollControls damping={0.2} pages={3}>
             <Hero />
             <DeviceScene />
             <ScrollManager />

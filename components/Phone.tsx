@@ -9,9 +9,9 @@ Title: Iphone 14 Low Poly
 
 import * as THREE from "three";
 import React, { useRef } from "react";
-import { Mask, useGLTF, useMask } from "@react-three/drei";
+import { Mask, useGLTF, useMask, useScroll } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import { useLoader } from "@react-three/fiber";
+import { useFrame, useLoader } from "@react-three/fiber";
 import img from "../public/website_example.png";
 
 type GLTFResult = GLTF & {
@@ -26,10 +26,26 @@ type GLTFResult = GLTF & {
 function Screen(props: JSX.IntrinsicElements["mesh"]) {
   const texture = useLoader(THREE.TextureLoader, img.src);
   const stencil = useMask(2);
+
+  const scroll = useScroll();
+  const screenPosition = [4, -3, 1];
+  const screenRef = useRef<THREE.Mesh>(null);
+
+  useFrame(() => {
+    if (screenRef.current) {
+      screenRef.current.position.set(
+        screenPosition[0],
+        screenPosition[1] + scroll.range(0.8, 0.2)*6.4,
+        screenPosition[2]
+      );
+    }
+  });
+
+  
   return (
-    <mesh {...props} position={[4, -3, 1.7]}>
+    <mesh  ref={screenRef} position={[screenPosition[0], screenPosition[1], screenPosition[2]]} {...props}>
       <planeGeometry args={[10, 8.78, 1]} />
-      <meshBasicMaterial /* map={texture} */ color={"red"} {...stencil} />
+      <meshBasicMaterial map={texture} {...stencil} />
     </mesh>
   );
 }

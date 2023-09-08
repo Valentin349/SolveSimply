@@ -8,8 +8,8 @@ Title: Computer Monitor Lowpoly Model
 */
 
 import * as THREE from "three";
-import React from "react";
-import { Mask, useGLTF, useMask, useScroll } from "@react-three/drei";
+import React, { useRef } from "react";
+import { Html, Mask, useGLTF, useMask, useScroll } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { useFrame, useLoader } from "@react-three/fiber";
 import img from "../public/website_example.png";
@@ -32,9 +32,23 @@ type GLTFResult = GLTF & {
 function Screen(props: JSX.IntrinsicElements["mesh"]) {
   const texture = useLoader(THREE.TextureLoader, img.src);
   const stencil = useMask(1);
+
+  const scroll = useScroll();
+  const screenPosition = [0, -1.9, -0.26];
+  const screenRef = useRef<THREE.Mesh>(null);
+
+  useFrame(() => {
+    if (screenRef.current) {
+      screenRef.current.position.set(
+        screenPosition[0],
+        screenPosition[1] + scroll.range(0.4, 0.2)*6.8,
+        screenPosition[2]
+      );
+    }
+  });
   return (
-    <mesh {...props} position={[0, -1.9, -0.26]}>
-      <planeGeometry args={[3.8, 8.78, 1]} />
+    <mesh ref={screenRef} position={[screenPosition[0], screenPosition[1], screenPosition[2]]} {...props}>
+      <planeGeometry args={[3.8, 8.78]} />
       <meshBasicMaterial map={texture} {...stencil} />
     </mesh>
   );
@@ -42,13 +56,14 @@ function Screen(props: JSX.IntrinsicElements["mesh"]) {
 
 export default function Model(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF("/monitor.glb") as GLTFResult;
+  
 
   return (
     <group>
-      <group {...props} dispose={null} position={[-0.3, -1, 2.5]}>
+      <group {...props} dispose={null} position={[-0.3, -1, 2.9]}>
         <group position={[0, -0.055, 0.027]}>
           <Mask id={1} geometry={nodes.Object_4.geometry}></Mask>
-          <Screen name="monitorScreen" />
+          <Screen  name="monitorScreen" />
           <mesh geometry={nodes.Object_5.geometry} material={materials.Main} />
         </group>
         <mesh

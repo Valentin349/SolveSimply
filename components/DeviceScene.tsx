@@ -1,14 +1,9 @@
 import Phone from "./Phone";
 import Monitor from "./Monitor";
 import { useRef, useState, useEffect } from "react";
-import { Mesh, PointLight, RectAreaLight, Vector3 } from "three";
-import { Backdrop, useScroll } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { Vector3 } from "three";
 
 export default function DeviceScene() {
-  const light1Ref = useRef<RectAreaLight>(null);
-  const light2Ref = useRef<PointLight>(null);
-  const light3Ref = useRef<PointLight>(null);
   const [scale, setScale] = useState(1);
   const [phonePostition, setPhonePosition] = useState([-3, -1.1, 2.3]);
 
@@ -22,7 +17,7 @@ export default function DeviceScene() {
       if (aspect < 1.2) {
         setPhonePosition([-1.5, -1.15, 3.5]);
       } else {
-        setPhonePosition([-3, -1.15, 2.3]);
+        setPhonePosition([-2.5, -1.15, 2.3]);
       }
     };
 
@@ -47,19 +42,18 @@ export default function DeviceScene() {
           <planeGeometry args={[70, 35]} />
           <meshStandardMaterial color={"#EAE7DC"} />
         </mesh>
-        <ambientLight />
-        <rectAreaLight height={0.5} position={[0, 0, 10]}></rectAreaLight>
-        <pointLight intensity={2} castShadow position={[0, 0.5, 3]} />
-        <pointLight intensity={2} castShadow position={[1, 0.3, 5]} />
+        <ambientLight intensity={0.2} />
+        <pointLight intensity={2} castShadow position={[0, 0.5, 2.3]} />
+        <pointLight intensity={2} castShadow position={[0.5, 0.3, 2.3]} />
 
         <group position={[0.3, 0, 0]}>
           <rectAreaLight
-            color={"#e85a4f"}
+            color={"#E98074"}
             rotation={[0, Math.PI, 0]}
-            position={[-0.2, 0.3, 2.26]}
-            width={1}
+            position={[-0.3, 0.55, 2.26]}
+            width={2.3}
             height={2}
-            intensity={1.3}
+            intensity={1}
           />
           <Monitor />
         </group>
