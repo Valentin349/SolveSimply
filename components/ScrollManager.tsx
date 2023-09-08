@@ -110,12 +110,12 @@ export default function ScrollManager() {
 
 
     if (heroScrollRange < 1) {
-      scene.children[0].visible = true;
-      scene.children[1].visible = false;
+      scene.children[0].scale.set(1,1,1);
+      scene.children[1].scale.set(0,0,0);
       updateGlobeScene(state, heroScrollRange);
     } else {
-      scene.children[0].visible = false;
-      scene.children[1].visible = true;
+      scene.children[0].scale.set(0,0,0);
+      scene.children[1].scale.set(1,1,1);
       updateDevicesScene(state, deviceScrollRange);
     }
   });

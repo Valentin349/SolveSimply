@@ -41,28 +41,30 @@ export default function DeviceScene() {
   );
 
   return (
-    <group name="DeviceScene" scale={scale}>
-      <mesh rotation-x={-Math.PI / 2} position={[0, -1.21, 3]} receiveShadow>
-        <planeGeometry args={[70, 35]} />
-        <meshStandardMaterial color={"#EAE7DC"} />
-      </mesh>
-      <ambientLight />
-      <rectAreaLight height={0.5} position={[0, 0, 10]}></rectAreaLight>
-      <pointLight intensity={2} castShadow position={[0, 0.5, 3]} />
-      <pointLight intensity={2} castShadow position={[1, 0.3, 5]} />
+    <group>
+      <group name="DeviceScene" scale={scale}>
+        <mesh rotation-x={-Math.PI / 2} position={[0, -1.21, 3]} receiveShadow>
+          <planeGeometry args={[70, 35]} />
+          <meshStandardMaterial color={"#EAE7DC"} />
+        </mesh>
+        <ambientLight />
+        <rectAreaLight height={0.5} position={[0, 0, 10]}></rectAreaLight>
+        <pointLight intensity={2} castShadow position={[0, 0.5, 3]} />
+        <pointLight intensity={2} castShadow position={[1, 0.3, 5]} />
 
-      <group position={[0.3, 0, 0]}>
-        <rectAreaLight
-          color={"#e85a4f"}
-          rotation={[0, Math.PI, 0]}
-          position={[-0.2, 0.3, 2.26]}
-          width={1}
-          height={2}
-          intensity={1.3}
-        />
-        <Monitor />
+        <group position={[0.3, 0, 0]}>
+          <rectAreaLight
+            color={"#e85a4f"}
+            rotation={[0, Math.PI, 0]}
+            position={[-0.2, 0.3, 2.26]}
+            width={1}
+            height={2}
+            intensity={1.3}
+          />
+          <Monitor />
+        </group>
+        <Phone position={vectorPhonePosition} />
       </group>
-      <Phone position={vectorPhonePosition} />
     </group>
   );
 }
