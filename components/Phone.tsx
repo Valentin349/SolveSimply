@@ -13,6 +13,7 @@ import { Mask, useGLTF, useMask, useScroll } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { useFrame, useLoader } from "@react-three/fiber";
 import img from "../public/website_example.png";
+import MonitorScreen from "./MonitorScreen";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -35,15 +36,18 @@ function Screen(props: JSX.IntrinsicElements["mesh"]) {
     if (screenRef.current) {
       screenRef.current.position.set(
         screenPosition[0],
-        screenPosition[1] + scroll.range(0.8, 0.2)*6.4,
+        screenPosition[1] + scroll.range(0.8, 0.2) * 6.4,
         screenPosition[2]
       );
     }
   });
 
-  
   return (
-    <mesh  ref={screenRef} position={[screenPosition[0], screenPosition[1], screenPosition[2]]} {...props}>
+    <mesh
+      ref={screenRef}
+      position={[screenPosition[0], screenPosition[1], screenPosition[2]]}
+      {...props}
+    >
       <planeGeometry args={[10, 8.78, 1]} />
       <meshBasicMaterial map={texture} {...stencil} />
     </mesh>
@@ -69,6 +73,15 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
             scale={[0.95, 0.98, 0]}
             geometry={nodes.Cube_Material001_0.geometry}
           ></Mask>
+          <MonitorScreen
+            maskId={2}
+            scrollStart={0.8}
+            scrollDistance={0.2}
+            scrollFactor={6.4}
+            screenPosition={[4, -3, 1]}
+            planeArgs={[10, 8.78, 1]}
+            image={img}
+          />
           <Screen />
         </mesh>
       </group>
