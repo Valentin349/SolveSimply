@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import React, { useRef } from "react";
-import { useMask, useScroll } from "@react-three/drei";
+import { Html, useMask, useScroll } from "@react-three/drei";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { StaticImageData } from "next/image";
 
@@ -14,7 +14,7 @@ const screenShader = {
     distortion2: { type: "f", value: 0.5 },
     speed: { type: "f", value: 0.09 },
     rollSpeed: { type: "f", value: 0.0 },
-    useScanline: {type: "b", value: true},
+    useScanline: { type: "b", value: true },
   },
 
   vertexShader: `
@@ -140,7 +140,8 @@ export default function MonitorScreen({
     if (screenRef.current) {
       screenRef.current.position.set(
         screenPosition[0],
-        screenPosition[1] + scroll.range(scrollStart, scrollDistance) * scrollFactor,
+        screenPosition[1] +
+          scroll.range(scrollStart, scrollDistance) * scrollFactor,
         screenPosition[2]
       );
     }
@@ -152,7 +153,6 @@ export default function MonitorScreen({
       {...props}
     >
       <planeGeometry args={[planeArgs[0], planeArgs[1], planeArgs[2]]} />
-
       <shaderMaterial
         ref={shaderRef}
         uniforms-tDiffuse-value={texture}

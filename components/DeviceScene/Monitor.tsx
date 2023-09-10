@@ -9,10 +9,11 @@ Title: Computer Monitor Lowpoly Model
 
 import * as THREE from "three";
 import React from "react";
-import { Mask, useGLTF } from "@react-three/drei";
+import { Html, Mask, useGLTF, useScroll } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import img from "../../public/website_example.png";
 import MonitorScreen from "./MonitorScreen";
+import MontiorHtml from "./MontitorHtml";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -31,6 +32,7 @@ type GLTFResult = GLTF & {
 
 export default function Model(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF("/monitor.glb") as GLTFResult;
+  const scroll = useScroll();
 
   return (
     <group>
@@ -62,6 +64,13 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
           material={materials.Main_MAt}
         />
       </group>
+      <Html
+          transform
+          portal={{ current: scroll.fixed }}
+          position={[1.6,0,2.5]}
+        >
+          <MontiorHtml/>
+        </Html>
     </group>
   );
 }

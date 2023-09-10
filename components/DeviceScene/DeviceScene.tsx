@@ -2,11 +2,15 @@ import Phone from "./Phone";
 import Monitor from "./Monitor";
 import { useState, useEffect } from "react";
 import { Vector3 } from "three";
+import { Html, Scroll, useScroll } from "@react-three/drei";
 
 export default function DeviceScene() {
   const floorColor = "#EAE7DC";
   const [scale, setScale] = useState(1);
-  const [phonePostition, setPhonePosition] = useState(new Vector3(-3, -1.1, 2.3));
+  const [phonePostition, setPhonePosition] = useState(
+    new Vector3(-3, -1.1, 2.3)
+  );
+  const scroll = useScroll();
 
   useEffect(() => {
     const updateScaleAndPosition = () => {
@@ -53,6 +57,7 @@ export default function DeviceScene() {
           <Monitor />
         </group>
         <Phone position={phonePostition} />
+
       </group>
     </group>
   );
