@@ -2,10 +2,7 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
 import Hero from "./Hero";
-import {
-  CameraControls,
-  ScrollControls,
-} from "@react-three/drei";
+import { ScrollControls } from "@react-three/drei";
 import ScrollManager from "./ScrollManager";
 import DeviceScene from "./DeviceScene";
 
@@ -21,7 +18,6 @@ export default function Scene() {
             <DeviceScene />
             <ScrollManager />
           </ScrollControls>
-          {/* <CameraControls/> */}
         </Canvas>
       </div>
     </div>

@@ -91,8 +91,8 @@ export default function ScrollManager() {
     let endLookPoint = new THREE.Vector3(-2.5, -7, 3.2);
 
     if (screenSize.width / screenSize.height < 1.2) {
-      endPoint = new THREE.Vector3(-0.64, 0.1, 2.4);
-      endLookPoint = new THREE.Vector3(-0.64, -2, 2.4);
+      endPoint = new THREE.Vector3(-0.645, 0.1, 2.4);
+      endLookPoint = new THREE.Vector3(-0.645, -2, 2.4);
     } 
     
     state.camera.position.copy(

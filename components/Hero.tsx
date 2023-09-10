@@ -5,14 +5,14 @@ import * as THREE from "three";
 import { Text } from "@react-three/drei";
 
 export default function Hero() {
-  const [scale, setScale] = useState(4);
-  const [globePosition, setGlobePosition] = useState([0, 0, 0]);
-  const [heroPosition, setHeroPosition] = useState([0, 0, 0]);
-  const [hovered, setHovered] = useState(false);
   const aspectThreshold = 1.2;
-
   const title = "SolveSimply.";
   const subTitle = "Real Estate Tech Experts";
+
+  const [scale, setScale] = useState(4);
+  const [globePosition, setGlobePosition] = useState(new THREE.Vector3());
+  const [heroPosition, setHeroPosition] = useState(new THREE.Vector3());
+  const [hovered, setHovered] = useState(false);
 
   const handleClick = () => {
     // button click
@@ -26,8 +26,16 @@ export default function Hero() {
       setScale(newScale);
 
       const heroX = -window.innerWidth / window.innerHeight + 0.3;
-      setHeroPosition(aspect < aspectThreshold ? [0, 1, 3] : [heroX, 0.3, 3]);
-      setGlobePosition(aspect < aspectThreshold ? [0, -2.5, 0] : [3, -0.4, 0]);
+      setHeroPosition(
+        aspect < aspectThreshold
+          ? new THREE.Vector3(0, 1, 3)
+          : new THREE.Vector3(heroX, 0.3, 3)
+      );
+      setGlobePosition(
+        aspect < aspectThreshold
+          ? new THREE.Vector3(0, -2.5, 0)
+          : new THREE.Vector3(3, -0.4, 0)
+      );
     };
 
     updateScaleAndPosition();
@@ -38,28 +46,16 @@ export default function Hero() {
     };
   }, []);
 
+  // seperated hover logic from scaling logic
   useEffect(() => {
     document.body.style.cursor = hovered ? "pointer" : "auto";
   }, [hovered]);
 
-  // Convert the array position to Vector3 before passing it to the Globe component
-  const vectorGlobePosition = new THREE.Vector3(
-    globePosition[0],
-    globePosition[1],
-    globePosition[2]
-  );
-
-  const vectorHeroPosition = new THREE.Vector3(
-    heroPosition[0],
-    heroPosition[1],
-    heroPosition[2]
-  );
-
   return (
-    <group name="HeroScene" >
+    <group name="HeroScene">
       <ambientLight />
       <pointLight position={[0, 0, 0]} intensity={1.8} />
-      <group scale={scale * 0.25} position={vectorHeroPosition}>
+      <group scale={scale * 0.25} position={heroPosition}>
         <Text fontSize={0.4} color={"#e85a4f"}>
           {title}
         </Text>
@@ -85,7 +81,7 @@ export default function Hero() {
         </group>
       </group>
 
-      <Globe scale={scale} position={vectorGlobePosition} />
+      <Globe scale={scale} position={globePosition} />
     </group>
   );
 }
