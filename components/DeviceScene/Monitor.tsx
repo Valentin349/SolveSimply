@@ -11,7 +11,7 @@ import * as THREE from "three";
 import React from "react";
 import { Mask, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import img from "../public/website_example.png";
+import img from "../../public/website_example.png";
 import MonitorScreen from "./MonitorScreen";
 
 type GLTFResult = GLTF & {

@@ -1,11 +1,12 @@
 import Phone from "./Phone";
 import Monitor from "./Monitor";
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Vector3 } from "three";
 
 export default function DeviceScene() {
+  const floorColor = "#EAE7DC";
   const [scale, setScale] = useState(1);
-  const [phonePostition, setPhonePosition] = useState([-3, -1.1, 2.3]);
+  const [phonePostition, setPhonePosition] = useState(new Vector3(-3, -1.1, 2.3));
 
   useEffect(() => {
     const updateScaleAndPosition = () => {
@@ -15,9 +16,9 @@ export default function DeviceScene() {
       setScale(newScale);
 
       if (aspect < 1.2) {
-        setPhonePosition([-1.5, -1.15, 3.5]);
+        setPhonePosition(new Vector3(-1.5, -1.15, 3.5));
       } else {
-        setPhonePosition([-2.5, -1.15, 2.3]);
+        setPhonePosition(new Vector3(-2.5, -1.15, 2.3));
       }
     };
 
@@ -29,18 +30,12 @@ export default function DeviceScene() {
     };
   }, []);
 
-  const vectorPhonePosition = new Vector3(
-    phonePostition[0],
-    phonePostition[1],
-    phonePostition[2]
-  );
-
   return (
     <group>
       <group name="DeviceScene" scale={scale}>
         <mesh rotation-x={-Math.PI / 2} position={[0, -1.21, 3]} receiveShadow>
           <planeGeometry args={[70, 35]} />
-          <meshStandardMaterial color={"#EAE7DC"} />
+          <meshStandardMaterial color={floorColor} />
         </mesh>
         <ambientLight intensity={0.2} />
         <pointLight intensity={2} castShadow position={[0, 0.5, 2.3]} />
@@ -57,7 +52,7 @@ export default function DeviceScene() {
           />
           <Monitor />
         </group>
-        <Phone position={vectorPhonePosition} />
+        <Phone position={phonePostition} />
       </group>
     </group>
   );
