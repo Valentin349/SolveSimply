@@ -12,10 +12,13 @@ export default function DeviceScene() {
   const floorColor = "#EAE7DC";
   const [scale, setScale] = useState(1);
   const [aspect, setAspect] = useState(1);
-  const monitorHtmlRef = useRef<Group>(null);
   const [phonePosition, setPhonePosition] = useState(
     new Vector3(-3, -1.1, 2.3)
   );
+  const [phoneHtmlPosition, setPhoneHtmlPosition] = useState(
+    new Vector3(-1.7, -2, 0.5)
+  );
+  const monitorHtmlRef = useRef<Group>(null);
   const scroll = useScroll();
 
   useEffect(() => {
@@ -27,9 +30,11 @@ export default function DeviceScene() {
       setAspect(aspect);
 
       if (aspect < 1.2) {
-        setPhonePosition(new Vector3(-1.5, -1.15, 3.5));
+        setPhonePosition(new Vector3(-1.4, -1.15, 3.6));
+        setPhoneHtmlPosition(new Vector3(0,-6,-4));
       } else {
         setPhonePosition(new Vector3(-2.6, -1.15, 2.5));
+        setPhoneHtmlPosition(new Vector3(-1.7, -2, 0.5));
       }
     };
 
@@ -41,14 +46,13 @@ export default function DeviceScene() {
     };
   }, []);
 
-  useFrame(()=>{
-    if (aspect > 1.2){
-      monitorHtmlRef.current!.position.y = scroll.range(0.3,0.1)*4 - 4; 
+  useFrame(() => {
+    if (aspect > 1.2) {
+      monitorHtmlRef.current!.position.y = scroll.range(0.3, 0.1) * 4 - 4;
     } else {
-      monitorHtmlRef.current!.position.y = scroll.range(0.3,0.1)*8 - 6; 
+      monitorHtmlRef.current!.position.y = scroll.range(0.3, 0.1) * 8 - 6;
     }
-    
-  })
+  });
 
   return (
     <group>
@@ -74,28 +78,30 @@ export default function DeviceScene() {
         </group>
         <Phone position={phonePosition} />
 
-        <group ref={monitorHtmlRef} position={[0,0,0]}>
+        <group ref={monitorHtmlRef} position={[0, 0, 0]}>
           <Html
             transform
             portal={{ current: scroll.fixed }}
             position={[0, 0, 2.5]}
             className={"h-[130px] w-[180px]"}
           >
-            <MonitorHtml aspect={aspect}/>
+            <MonitorHtml aspect={aspect} />
           </Html>
         </group>
 
-        <group rotation-y={Math.PI/4} position={phonePosition} scale={aspect < 1.2 ? 0 : 1}>
-        <Html
-          transform
-          portal={{ current: scroll.fixed }}
-          position={[-1.35, -1, 0.5]}
-          rotation-x={-Math.PI / 2}
-          
+        <group
+          rotation-y={Math.PI / 4}
+          position={phonePosition}
         >
-          <PhoneHtml />
-        </Html>
-      </group>
+          <Html
+            transform
+            portal={{ current: scroll.fixed }}
+            position={phoneHtmlPosition}
+            rotation-x={-Math.PI / 2}
+          >
+            <PhoneHtml aspect={aspect} />
+          </Html>
+        </group>
       </group>
     </group>
   );
