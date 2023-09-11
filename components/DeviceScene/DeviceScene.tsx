@@ -1,13 +1,18 @@
 import Phone from "./Phone";
 import Monitor from "./Monitor";
-import { useState, useEffect } from "react";
-import { Vector3 } from "three";
-import { Html, Scroll, useScroll } from "@react-three/drei";
+import { useState, useEffect, useRef } from "react";
+import { Group, Vector3 } from "three";
+import { Html, Resize, Scroll, useScroll } from "@react-three/drei";
+import MonitorHtml from "./MonitorHtml";
+import { HtmlProps } from "@react-three/drei/web/Html";
+import { useFrame } from "@react-three/fiber";
 
 export default function DeviceScene() {
   const floorColor = "#EAE7DC";
   const [scale, setScale] = useState(1);
-  const [phonePostition, setPhonePosition] = useState(
+  const [aspect, setAspect] = useState(1);
+  const monitorHtmlRef = useRef<Group>(null);
+  const [phonePosition, setPhonePosition] = useState(
     new Vector3(-3, -1.1, 2.3)
   );
   const scroll = useScroll();
@@ -18,6 +23,7 @@ export default function DeviceScene() {
       let newScale = Math.pow(aspect, 0.45) * 0.1;
       newScale = aspect < 1.2 ? newScale + 0.56 : newScale + 0.9;
       setScale(newScale);
+      setAspect(aspect);
 
       if (aspect < 1.2) {
         setPhonePosition(new Vector3(-1.5, -1.15, 3.5));
@@ -33,6 +39,15 @@ export default function DeviceScene() {
       window.removeEventListener("resize", updateScaleAndPosition);
     };
   }, []);
+
+  useFrame(()=>{
+    if (aspect > 1.2){
+      monitorHtmlRef.current!.position.y = scroll.range(0.3,0.1)*4 - 4; 
+    } else {
+      monitorHtmlRef.current!.position.y = scroll.range(0.3,0.1)*8 - 6; 
+    }
+    
+  })
 
   return (
     <group>
@@ -56,8 +71,18 @@ export default function DeviceScene() {
           />
           <Monitor />
         </group>
-        <Phone position={phonePostition} />
+        <Phone position={phonePosition} />
 
+        <group ref={monitorHtmlRef} position={[0,0,0]}>
+          <Html
+            transform
+            portal={{ current: scroll.fixed }}
+            position={[0, 0, 2.5]}
+            className={"h-[130px] w-[180px]"}
+          >
+            <MonitorHtml aspect={aspect}/>
+          </Html>
+        </group>
       </group>
     </group>
   );
