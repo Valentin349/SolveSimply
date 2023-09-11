@@ -56,16 +56,7 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
           />
         </mesh>
       </group>
-      <group rotation-y={Math.PI/4}>
-        <Html
-          transform
-          portal={{ current: scroll.fixed }}
-          position={[-1.5, 0, 0]}
-          rotation-x={-Math.PI / 2}
-        >
-          <PhoneHtml />
-        </Html>
-      </group>
+      
     </group>
   );
 }

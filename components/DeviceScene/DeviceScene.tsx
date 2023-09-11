@@ -6,6 +6,7 @@ import { Html, Resize, Scroll, useScroll } from "@react-three/drei";
 import MonitorHtml from "./MonitorHtml";
 import { HtmlProps } from "@react-three/drei/web/Html";
 import { useFrame } from "@react-three/fiber";
+import PhoneHtml from "./PhoneHtml";
 
 export default function DeviceScene() {
   const floorColor = "#EAE7DC";
@@ -28,7 +29,7 @@ export default function DeviceScene() {
       if (aspect < 1.2) {
         setPhonePosition(new Vector3(-1.5, -1.15, 3.5));
       } else {
-        setPhonePosition(new Vector3(-2.5, -1.15, 2.3));
+        setPhonePosition(new Vector3(-2.6, -1.15, 2.5));
       }
     };
 
@@ -83,6 +84,18 @@ export default function DeviceScene() {
             <MonitorHtml aspect={aspect}/>
           </Html>
         </group>
+
+        <group rotation-y={Math.PI/4} position={phonePosition} scale={aspect < 1.2 ? 0 : 1}>
+        <Html
+          transform
+          portal={{ current: scroll.fixed }}
+          position={[-1.35, -1, 0.5]}
+          rotation-x={-Math.PI / 2}
+          
+        >
+          <PhoneHtml />
+        </Html>
+      </group>
       </group>
     </group>
   );
