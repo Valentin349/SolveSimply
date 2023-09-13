@@ -31,7 +31,7 @@ export default function DeviceScene() {
 
       if (aspect < 1.2) {
         setPhonePosition(new Vector3(-1.4, -1.15, 3.6));
-        setPhoneHtmlPosition(new Vector3(0,-6,-4));
+        setPhoneHtmlPosition(new Vector3(0,-6.7,-4));
       } else {
         setPhonePosition(new Vector3(-2.6, -1.15, 2.5));
         setPhoneHtmlPosition(new Vector3(-1.7, -2, 0.5));
