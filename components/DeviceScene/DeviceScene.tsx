@@ -2,9 +2,8 @@ import Phone from "./Phone";
 import Monitor from "./Monitor";
 import { useState, useEffect, useRef } from "react";
 import { Group, Vector3 } from "three";
-import { Html, Resize, Scroll, useScroll } from "@react-three/drei";
+import { Html, useScroll } from "@react-three/drei";
 import MonitorHtml from "./MonitorHtml";
-import { HtmlProps } from "@react-three/drei/web/Html";
 import { useFrame } from "@react-three/fiber";
 import PhoneHtml from "./PhoneHtml";
 
@@ -13,7 +12,7 @@ export default function DeviceScene() {
   const [scale, setScale] = useState(1);
   const [aspect, setAspect] = useState(1);
   const [phonePosition, setPhonePosition] = useState(
-    new Vector3(-3, -1.1, 2.3)
+    new Vector3(-2.6, -1.15, 2.5)
   );
   const [phoneHtmlPosition, setPhoneHtmlPosition] = useState(
     new Vector3(-1.7, -2, 0.5)
@@ -25,9 +24,16 @@ export default function DeviceScene() {
     const updateScaleAndPosition = () => {
       const aspect = Math.max(window.innerWidth / window.innerHeight, 0.5);
       let newScale = Math.pow(aspect, 0.45) * 0.1;
-      newScale = aspect < 1.2 ? newScale + 0.56 : newScale + 0.9;
+      if (aspect < 0.6) {
+        newScale = newScale + 0.56
+      } else {
+        newScale = aspect < 1.2 ? newScale + 0.55 : newScale + 0.9;
+      }
+      
+      
       setScale(newScale);
       setAspect(aspect);
+      console.log(aspect);
 
       if (aspect < 1.2) {
         setPhonePosition(new Vector3(-1.4, -1.15, 3.6));
