@@ -27,7 +27,7 @@ export default function ScrollIndicator() {
   }, []);
 
   return (
-    <div className={`fixed flex justify-center items-center bottom-5 inset-x-0 transition-opacity ${isScrolling ? 'opacity-0' : 'opacity-100'}`}>
+    <div className={`fixed flex justify-center items-center bottom-12 inset-x-0 transition-opacity ${isScrolling ? 'opacity-0' : 'opacity-100'}`}>
       <div className="w-8 h-16 rounded-full border-2 border-lightPink p-1 relative">
         <div className="w-5 h-5 rounded-full bg-lightPink absolute top-1 animate-scroll-tailwind"></div>
       </div>

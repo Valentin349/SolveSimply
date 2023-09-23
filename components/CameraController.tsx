@@ -121,6 +121,7 @@ export default function CameraController() {
       scene.children[1].scale.set(0, 0, 0);
       updateGlobeScene(state, heroScrollRange);
     }
+
   });
 
   return null;

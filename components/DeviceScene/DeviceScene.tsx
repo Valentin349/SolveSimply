@@ -33,7 +33,6 @@ export default function DeviceScene() {
       
       setScale(newScale);
       setAspect(aspect);
-      console.log(aspect);
 
       if (aspect < 1.2) {
         setPhonePosition(new Vector3(-1.4, -1.15, 3.6));
