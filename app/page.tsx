@@ -8,9 +8,8 @@ export default function Home() {
   return (
     <>
     <Navbar/>
+    <Scene />
     <ScrollIndicator/>
-    <Scene/>
-    <Footer/>
     </>
   )
 }

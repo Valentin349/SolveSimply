@@ -24,3 +24,16 @@ body {
 .deviceHtml {
   position: fixed !important;
 }
+
+@keyframes scrollAnimation {
+  0% {
+      top: 1px; /* Start position at the top */
+  }
+  100% {
+      top: 50%; /* End position at the bottom */
+  }
+}
+
+.animate-scroll-tailwind {
+  animation: scrollAnimation 0.6s ease-in-out infinite; /* Adjust the animation duration as needed */
+}

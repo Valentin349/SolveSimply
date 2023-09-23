@@ -5,6 +5,7 @@ import Hero from "./HeroScene/Hero";
 import { Html, Scroll, ScrollControls } from "@react-three/drei";
 import CameraController from "./CameraController";
 import DeviceScene from "./DeviceScene/DeviceScene";
+import ScrollIndicator from "./ScrollIndicator";
 
 export default function Scene() {
   return (

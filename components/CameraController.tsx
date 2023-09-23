@@ -29,7 +29,7 @@ const brazierCurve = (
   return position;
 };
 
-export default function ScrollManager() {
+export default function CameraController() {
   const scroll = useScroll();
   const scene = useThree((state) => state.scene);
   const screenSize = useThree((state) => state.size);
