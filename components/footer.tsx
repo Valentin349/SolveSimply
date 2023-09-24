@@ -5,6 +5,12 @@ export default function Footer() {
       <span className="">
         &copy; {new Date().getFullYear()} {companyName}. All rights reserved.
       </span>
+      <span className="ml-4">
+        <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer">
+          Privacy Policy
+        </a>
+      </span>
     </footer>
   );
 }
+
