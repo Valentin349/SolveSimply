@@ -1,5 +1,6 @@
 import { useScroll } from "@react-three/drei";
 import { RootState, useFrame, useThree } from "@react-three/fiber";
+import { useRef, useState } from "react";
 import * as THREE from "three";
 
 const brazierCurve = (
@@ -31,9 +32,32 @@ const brazierCurve = (
 
 export default function CameraController() {
   const scroll = useScroll();
+  const [lastScrollPosition, setLastScrollPosition] = useState(scroll.offset);
+
+  // globe shot
+  const globeStartPoint = new THREE.Vector3(0, 0, 5);
+  const globeControlPoint1 = new THREE.Vector3(0, 0, 2);
+  const globeControlPoint2 = useRef(new THREE.Vector3()).current;
+  const thresholdPosition = new THREE.Vector3(3, -0.4, 0);
+
+  // monitor short
+  const devicesStartPoint = new THREE.Vector3(0, 8, 9);
+  const devicesControlPoint1 = new THREE.Vector3(0, 1, 7);
+  const devicesEndPoint = new THREE.Vector3(0, 0, 5);
+
+  // phone shot
+  const phoneStartPoint = new THREE.Vector3(0, 0, 5);
+  const phoneStartLookPoint = new THREE.Vector3(0, 0, 0);
+  const phoneEndPoint = new THREE.Vector3(-2.5, 0, 3.2);
+  const phoneEndLookPoint = new THREE.Vector3(-2.5, -7, 3.2);
+  const largeScreenPhoneEndPoint = new THREE.Vector3(-2.5, 0, 3.2);
+  const largeScreenPhoneEndLookPoint = new THREE.Vector3(-2.5, -7, 3.2);
+
   const scene = useThree((state) => state.scene);
   const screenSize = useThree((state) => state.size);
+  const [lastScreenSize, setLastScreenSize] = useState(screenSize);
 
+  // update camera position in globe scene
   const updateGlobeScene = (state: RootState, scroll: number) => {
     const heroScene = scene.children[0];
 
@@ -41,87 +65,109 @@ export default function CameraController() {
 
     const groupPosition = globe!.position;
 
-    const startPoint = new THREE.Vector3(0, 0, 5);
-    const controlPoint1 = new THREE.Vector3(0, 0, 2);
-
-    let controlPoint2 = new THREE.Vector3(
-      -groupPosition.x,
-      -0.6 * groupPosition.y,
-      0
-    );
-    if (groupPosition.equals(new THREE.Vector3(3, -0.4, 0))) {
-      controlPoint2 = new THREE.Vector3(-3, 4, 0);
+    globeControlPoint2.set(-groupPosition.x, -0.6 * groupPosition.y, 0);
+    if (groupPosition.equals(thresholdPosition)) {
+      globeControlPoint2.set(-3, 4, 0);
     }
     const endPoint = groupPosition;
 
     state.camera.position.copy(
-      brazierCurve(scroll, startPoint, controlPoint1, controlPoint2, endPoint)
+      brazierCurve(
+        scroll,
+        globeStartPoint,
+        globeControlPoint1,
+        globeControlPoint2,
+        endPoint
+      )
     );
 
     state.camera.lookAt(
       brazierCurve(
         scroll + 0.01,
-        startPoint,
-        controlPoint1,
-        controlPoint2,
+        globeStartPoint,
+        globeControlPoint1,
+        globeControlPoint2,
         endPoint
       )
     );
   };
 
+  // update camera position in devices scene
   const updateDevicesScene = (state: RootState, scroll: number) => {
-    const startPoint = new THREE.Vector3(0, 8, 9);
-    const controlPoint1 = new THREE.Vector3(0, 1, 7);
-    const endPoint = new THREE.Vector3(0, 0, 5);
-
     state.camera.position.copy(
-      brazierCurve(scroll, startPoint, controlPoint1, controlPoint1, endPoint)
+      brazierCurve(
+        scroll,
+        devicesStartPoint,
+        devicesControlPoint1,
+        devicesControlPoint1,
+        devicesEndPoint
+      )
     );
 
     state.camera.lookAt(
-      brazierCurve(scroll, startPoint, controlPoint1, controlPoint1, endPoint)
+      brazierCurve(
+        scroll,
+        devicesStartPoint,
+        devicesControlPoint1,
+        devicesControlPoint1,
+        devicesEndPoint
+      )
     );
   };
 
+  // update camera position in phone focus scene
   const phoneShot = (state: RootState, scroll: number) => {
-    const startPoint = new THREE.Vector3(0, 0, 5);
-    const startLookPoint = new THREE.Vector3(0,0,0);
-    
-    let endPoint = new THREE.Vector3(-2.5, 0, 3.2);
-    let endLookPoint = new THREE.Vector3(-2.5, -7, 3.2);
-
+    // update camera movement based on aspect ratio
     if (screenSize.width / screenSize.height < 1.2) {
-      endPoint = new THREE.Vector3(-0.645, 0.1, 2.4);
-      endLookPoint = new THREE.Vector3(-0.645, -2, 2.4);
-    } 
-    
+      phoneEndPoint.set(-0.645, 0.1, 2.4);
+      phoneEndLookPoint.set(-0.645, -2, 2.4);
+    } else if (phoneEndLookPoint.equals(largeScreenPhoneEndPoint)!){
+      phoneEndPoint.copy(largeScreenPhoneEndPoint);
+      phoneEndLookPoint.copy(largeScreenPhoneEndLookPoint);
+    }
+
     state.camera.position.copy(
-      new THREE.Vector3().lerpVectors(startPoint, endPoint, scroll)
+      new THREE.Vector3().lerpVectors(phoneStartPoint, phoneEndPoint, scroll)
     );
-       
-    const lerpedLookAt = new THREE.Vector3().lerpVectors(startLookPoint, endLookPoint, scroll);
+
+    const lerpedLookAt = new THREE.Vector3().lerpVectors(
+      phoneStartLookPoint,
+      phoneEndLookPoint,
+      scroll
+    );
     state.camera.lookAt(lerpedLookAt);
-    
-    state.camera.rotateZ(Math.PI/4 * scroll)
+
+    state.camera.rotateZ((Math.PI / 4) * scroll);
   };
 
   useFrame((state) => {
-    const heroScrollRange = scroll.range(0, 0.2);
-    const deviceScrollRange = scroll.range(0.2, 0.2);
-    const phoneScrollRange = scroll.range(0.6, 0.2);
-
-    if (phoneScrollRange > 0) {
-      phoneShot(state, phoneScrollRange);
-    } else if (deviceScrollRange > 0) {
-      scene.children[0].scale.set(0, 0, 0);
-      scene.children[1].scale.set(1, 1, 1);
-      updateDevicesScene(state, deviceScrollRange);
-    } else {
-      scene.children[0].scale.set(1, 1, 1);
+    // hide second scene at start
+    if (scroll.offset === 0 && lastScrollPosition === 0) {
       scene.children[1].scale.set(0, 0, 0);
-      updateGlobeScene(state, heroScrollRange);
     }
+    // only do calculations if scrolling has happenened or there is a change in screen size
+    if (scroll.offset !== lastScrollPosition || screenSize !== lastScreenSize) {
+      const heroScrollRange = scroll.range(0, 0.2);
+      const deviceScrollRange = scroll.range(0.2, 0.2);
+      const phoneScrollRange = scroll.range(0.6, 0.2);
 
+      if (phoneScrollRange > 0) {
+        phoneShot(state, phoneScrollRange);
+      } else if (deviceScrollRange > 0) {
+        scene.children[0].scale.set(0, 0, 0);
+        scene.children[1].scale.set(1, 1, 1);
+        updateDevicesScene(state, deviceScrollRange);
+      } else {
+        scene.children[0].scale.set(1, 1, 1);
+        scene.children[1].scale.set(0, 0, 0);
+        updateGlobeScene(state, heroScrollRange);
+      }
+
+      setLastScrollPosition(scroll.offset);
+      if (screenSize !== lastScreenSize){
+        setLastScreenSize(screenSize);
+      }
+    }
   });
 
   return null;
