@@ -34,24 +34,30 @@ export default function CameraController() {
   const scroll = useScroll();
   const [lastScrollPosition, setLastScrollPosition] = useState(scroll.offset);
 
-  // globe shot
+  // globe scene
   const globeStartPoint = new THREE.Vector3(0, 0, 5);
   const globeControlPoint1 = new THREE.Vector3(0, 0, 2);
   const globeControlPoint2 = useRef(new THREE.Vector3()).current;
   const thresholdPosition = new THREE.Vector3(3, -0.4, 0);
 
-  // monitor short
+  // monitor scene
   const devicesStartPoint = new THREE.Vector3(0, 8, 9);
   const devicesControlPoint1 = new THREE.Vector3(0, 1, 7);
   const devicesEndPoint = new THREE.Vector3(0, 0, 5);
 
-  // phone shot
+  // phone scene
   const phoneStartPoint = new THREE.Vector3(0, 0, 5);
   const phoneStartLookPoint = new THREE.Vector3(0, 0, 0);
   const phoneEndPoint = new THREE.Vector3(-2.5, 0, 3.2);
   const phoneEndLookPoint = new THREE.Vector3(-2.5, -7, 3.2);
   const largeScreenPhoneEndPoint = new THREE.Vector3(-2.5, 0, 3.2);
   const largeScreenPhoneEndLookPoint = new THREE.Vector3(-2.5, -7, 3.2);
+
+  // html scene
+  const htmlStartPoint = phoneEndPoint;
+  const htmlEndPoint = new THREE.Vector3(3, 0, 8);
+  const htmlStartLookPoint = phoneEndLookPoint;
+  const htmlEndLookPoint = new THREE.Vector3(3, -1, 8);
 
   const scene = useThree((state) => state.scene);
   const screenSize = useThree((state) => state.size);
@@ -140,6 +146,28 @@ export default function CameraController() {
     state.camera.rotateZ((Math.PI / 4) * scroll);
   };
 
+  const htmlScene = (state: RootState, scroll: number) => {
+    if (screenSize.width / screenSize.height < 1.2) {
+      htmlStartPoint.set(-0.645, 0.1, 2.4);
+      htmlStartLookPoint.set(-0.645, -2, 2.4);
+    } else {
+      htmlStartPoint.copy(largeScreenPhoneEndPoint);
+      htmlStartLookPoint.copy(largeScreenPhoneEndLookPoint);
+    }
+    
+    state.camera.position.copy(
+      new THREE.Vector3().lerpVectors(htmlStartPoint, htmlEndPoint, scroll)
+    );
+
+    state.camera.lookAt(new THREE.Vector3().lerpVectors(
+      htmlStartLookPoint,
+      htmlEndLookPoint,
+      scroll
+    ))
+
+    state.camera.rotateZ((Math.PI / 4) * (1-scroll));
+  }
+
   useFrame((state) => {
     // hide second scene at start
     if (scroll.offset === 0 && lastScrollPosition === 0) {
@@ -148,10 +176,13 @@ export default function CameraController() {
     // only do calculations if scrolling has happenened or there is a change in screen size
     if (scroll.offset !== lastScrollPosition || screenSize !== lastScreenSize) {
       const heroScrollRange = scroll.range(0, 0.2);
-      const deviceScrollRange = scroll.range(0.2, 0.2);
-      const phoneScrollRange = scroll.range(0.6, 0.2);
+      const deviceScrollRange = scroll.range(0.2, 0.1);
+      const phoneScrollRange = scroll.range(0.5, 0.1);
+      const HtmlRange = scroll.range(0.8, 0.1);
 
-      if (phoneScrollRange > 0) {
+      if (HtmlRange > 0) {
+        htmlScene(state, HtmlRange);
+      } else if (phoneScrollRange > 0) {
         phoneShot(state, phoneScrollRange);
       } else if (deviceScrollRange > 0) {
         scene.children[0].scale.set(0, 0, 0);

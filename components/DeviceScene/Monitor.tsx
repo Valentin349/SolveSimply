@@ -42,7 +42,7 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
           <Mask id={1} geometry={nodes.Object_4.geometry}></Mask>
           <MonitorScreen
             maskId={1}
-            scrollStart={0.4}
+            scrollStart={0.3}
             scrollDistance={0.2}
             scrollFactor={6.8}
             image={img}

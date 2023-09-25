@@ -2,9 +2,10 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
 import Hero from "./HeroScene/Hero";
-import { ScrollControls } from "@react-three/drei";
+import { Html, Scroll, ScrollControls } from "@react-three/drei";
 import CameraController from "./CameraController";
 import DeviceScene from "./DeviceScene/DeviceScene";
+import Products from "./Products";
 
 export default function Scene() {
   return (
@@ -16,9 +17,9 @@ export default function Scene() {
           <ScrollControls damping={0.25} pages={4}>
             <Hero />
             <DeviceScene />
+            <Products />
             <CameraController />
           </ScrollControls>
-          
         </Canvas>
       </div>
     </div>

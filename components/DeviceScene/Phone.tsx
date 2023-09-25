@@ -47,7 +47,7 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
           ></Mask>
           <MonitorScreen
             maskId={2}
-            scrollStart={0.8}
+            scrollStart={0.6}
             scrollDistance={0.2}
             scrollFactor={6.4}
             screenPosition={[4, -3, 1]}

@@ -53,9 +53,9 @@ export default function DeviceScene() {
 
   useFrame(() => {
     if (aspect > 1.2) {
-      monitorHtmlRef.current!.position.y = scroll.range(0.3, 0.1) * 4 - 4;
+      monitorHtmlRef.current!.position.y = scroll.range(0.29, 0.1) * 4 - 4;
     } else {
-      monitorHtmlRef.current!.position.y = scroll.range(0.3, 0.1) * 8 - 6;
+      monitorHtmlRef.current!.position.y = scroll.range(0.29, 0.1) * 8 - 6;
     }
   });
 
