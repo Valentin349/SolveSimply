@@ -16,9 +16,9 @@ const Card: React.FC<CardProps> = ({
   offerPrice,
 }) => {
   return (
-    <div className="card">
+    <div className="card ">
       <div
-        className={`max-w-sm rounded overflow-hidden shadow-lg w-[64vw] min-h-[1rem]${
+        className={`rounded overflow-hidden shadow-lg w-[88vw] min-h-[380px] ${
           headlineItem
             ? "h-[24vh] md:h-[55vh] md:w-[33vw]"
             : "h-[20vh] md:h-[50vh] md:w-[30vw]"
@@ -30,7 +30,7 @@ const Card: React.FC<CardProps> = ({
           </div>
         )}
 
-        <div className="flex  flex-col px-6 py-4 h-[90%]">
+        <div className="flex px-2 flex-col md:px-6 py-4 h-[90%]">
           <div className="font-bold text-xl mb-2">{title}</div>
           <div className="hidden text-gray-500 text-lg md:flex items-center gap-x-4">
             What is it
@@ -47,7 +47,7 @@ const Card: React.FC<CardProps> = ({
                 £{price}
               </div>
             )}
-            <div className="text-darkPink font-semibold text-4xl md:text-7xl">
+            <div className="text-darkPink font-semibold text-4xl md:text-5xl lg:text-7xl">
               £{offerPrice || price}
             </div>
           </div>

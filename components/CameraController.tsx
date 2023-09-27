@@ -57,8 +57,8 @@ export default function CameraController() {
   const htmlStartPoint = phoneEndPoint;
   const htmlEndPoint = new THREE.Vector3(3, 0, 8);
   const htmlStartLookPoint = phoneEndLookPoint;
-  const htmlEndLookPoint = new THREE.Vector3(3, -1, 8);
-  const htmlEndPoint2 = new THREE.Vector3(3, 0, 10);
+  const htmlEndLookPoint = new THREE.Vector3(3, 0, 8);
+  const htmlEndPoint2 = new THREE.Vector3(3, 0, 8);
 
   const scene = useThree((state) => state.scene);
   const screenSize = useThree((state) => state.size);
@@ -149,14 +149,7 @@ export default function CameraController() {
 
   const htmlScene = (state: RootState, scrollRange: number) => {
     const contactRange = scroll.range(0.9, 0.1);
-    
-    if (screenSize.width / screenSize.height < 1.2) {
-      htmlStartPoint.set(-0.645, 0.1, 2.4);
-      htmlStartLookPoint.set(-0.645, -2, 2.4);
-    } else {
-      htmlStartPoint.copy(largeScreenPhoneEndPoint);
-      htmlStartLookPoint.copy(largeScreenPhoneEndLookPoint);
-    }
+  
     
     if (contactRange === 0){
       state.camera.position.copy(

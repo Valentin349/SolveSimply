@@ -6,6 +6,7 @@ import { Html, Scroll, ScrollControls } from "@react-three/drei";
 import CameraController from "./CameraController";
 import DeviceScene from "./DeviceScene/DeviceScene";
 import Products from "./Products";
+import ContactForm from "./ContactForm";
 
 export default function Scene() {
   return (

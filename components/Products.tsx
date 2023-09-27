@@ -1,17 +1,24 @@
 import { Html, useScroll } from "@react-three/drei";
-import { Group, Vector3 } from "three";
+import { Vector3 } from "three";
 import Card from "./Card";
+import ContactForm from "./ContactForm";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 
 export default function Products() {
   const scroll = useScroll();
   const htmlPosition = new Vector3(3, -1, 8);
+  const ref = useRef<HTMLDivElement>(null)
+
+  useFrame(() => {
+
+    ref.current!.style.transform = `translateY(-${200 * scroll.range(0.9,0.1)}%)`
+  })
 
   return (
-    <Html portal={{ current: scroll.fixed }} position={htmlPosition} fullscreen>
-      <div className="flex justify-center items-center h-screen flex-col mt-24 md:mt-0">
-        <div className="flex flex-col md:flex-row items-center gap-1">
+    <Html ref={ref} portal={{ current: scroll.fixed }} position={htmlPosition} fullscreen>
+      <div className="flex items-center h-screen flex-col mt-48 top-[-2rem]">
+        <div className="relative flex flex-col md:flex-row gap-1 my-auto">
           <Card
             title={"Bespoke Website"}
             description={
@@ -40,9 +47,8 @@ export default function Products() {
             offerPrice={999}
           />
         </div>
-        <button className="bg-beige text-white p-3 rounded-md my-2 md:my-5">
-          Contact Us
-        </button>
+
+        <ContactForm/>
       </div>
     </Html>
   );
