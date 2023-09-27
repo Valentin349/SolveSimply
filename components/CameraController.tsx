@@ -58,6 +58,7 @@ export default function CameraController() {
   const htmlEndPoint = new THREE.Vector3(3, 0, 8);
   const htmlStartLookPoint = phoneEndLookPoint;
   const htmlEndLookPoint = new THREE.Vector3(3, -1, 8);
+  const htmlEndPoint2 = new THREE.Vector3(3, 0, 10);
 
   const scene = useThree((state) => state.scene);
   const screenSize = useThree((state) => state.size);
@@ -146,7 +147,9 @@ export default function CameraController() {
     state.camera.rotateZ((Math.PI / 4) * scroll);
   };
 
-  const htmlScene = (state: RootState, scroll: number) => {
+  const htmlScene = (state: RootState, scrollRange: number) => {
+    const contactRange = scroll.range(0.9, 0.1);
+    
     if (screenSize.width / screenSize.height < 1.2) {
       htmlStartPoint.set(-0.645, 0.1, 2.4);
       htmlStartLookPoint.set(-0.645, -2, 2.4);
@@ -155,17 +158,25 @@ export default function CameraController() {
       htmlStartLookPoint.copy(largeScreenPhoneEndLookPoint);
     }
     
-    state.camera.position.copy(
-      new THREE.Vector3().lerpVectors(htmlStartPoint, htmlEndPoint, scroll)
-    );
+    if (contactRange === 0){
+      state.camera.position.copy(
+        new THREE.Vector3().lerpVectors(htmlStartPoint, htmlEndPoint, scrollRange)
+      );
 
-    state.camera.lookAt(new THREE.Vector3().lerpVectors(
-      htmlStartLookPoint,
-      htmlEndLookPoint,
-      scroll
-    ))
+      state.camera.lookAt(new THREE.Vector3().lerpVectors(
+        htmlStartLookPoint,
+        htmlEndLookPoint,
+        scrollRange
+      ))
+  
+      state.camera.rotateZ((Math.PI / 4) * (1-scrollRange));
+    } else {
+      state.camera.position.copy(
+        new THREE.Vector3().lerpVectors(htmlEndPoint, htmlEndPoint2, contactRange)
+      );
+    }
 
-    state.camera.rotateZ((Math.PI / 4) * (1-scroll));
+    
   }
 
   useFrame((state) => {
@@ -178,10 +189,10 @@ export default function CameraController() {
       const heroScrollRange = scroll.range(0, 0.2);
       const deviceScrollRange = scroll.range(0.2, 0.1);
       const phoneScrollRange = scroll.range(0.5, 0.1);
-      const HtmlRange = scroll.range(0.8, 0.1);
+      const productsRange = scroll.range(0.8, 0.1);
 
-      if (HtmlRange > 0) {
-        htmlScene(state, HtmlRange);
+      if (productsRange > 0) {
+        htmlScene(state, productsRange);
       } else if (phoneScrollRange > 0) {
         phoneShot(state, phoneScrollRange);
       } else if (deviceScrollRange > 0) {

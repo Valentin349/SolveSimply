@@ -28,7 +28,7 @@ export default function Navbar() {
 
   return (
     <nav className={`fixed w-screen z-50 flex justify-center items-center my-2 ${isSmallScreen && isOpen ? "my-0" :""}`}>
-      <div className={`${isSmallScreen && isOpen ? "" :"rounded-[50px]"} md:w-[50%] flex flex-col md:flex-row justify-between py-2 md:py-2 px-5 md:px-10 bg-smokeyGrey bg-opacity-50 backdrop-blur-md shadow-md items-center `}>
+      <div className={`${isSmallScreen && isOpen ? "" :"rounded-[50px]"} md:w-[50%] flex flex-col md:flex-row justify-between py-2 md:py-2 px-5 md:px-10 backdrop-blur-md shadow-md items-center `}>
         <div className="min-h-[1vh] min-w-[]">
           <button onClick={toggleNavbar} className={`${isSmallScreen && isOpen ? "py-10 px-10" : ""}`}>
             {isSmallScreen && isOpen ? (
@@ -39,7 +39,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        <ul className={`md:flex transition-transform duration-300 ease-in-out uppercase decoration-4 py-1 md:flex-row md:w-fit md:h-fit md:space-x-5 lg:space-x-8 ${isSmallScreen && isOpen ? "flex-col w-screen h-screen text-center justify-around" : "hidden"} items-center`}>
+        <ul className={`text-black md:flex transition-transform duration-300 ease-in-out uppercase decoration-4 py-1 md:flex-row md:w-fit md:h-fit md:space-x-5 lg:space-x-8 ${isSmallScreen && isOpen ? "flex-col w-screen h-screen text-center justify-around" : "hidden"} items-center`}>
           <li className="my-16 py-5 md:py-0 md:my-0 hover:underline decoration-darkPink">
             <a href="">Services</a>
           </li>
