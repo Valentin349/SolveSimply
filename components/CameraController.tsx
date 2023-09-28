@@ -148,10 +148,15 @@ export default function CameraController() {
   };
 
   const htmlScene = (state: RootState, scrollRange: number) => {
-    const contactRange = scroll.range(0.9, 0.1);
-  
-    
-    if (contactRange === 0){
+    if (screenSize.width / screenSize.height < 1.2) {
+      htmlStartPoint.set(-0.645, 0.1, 2.4);
+      htmlStartLookPoint.set(-0.645, -2, 2.4);
+    } else {
+      htmlStartPoint.copy(largeScreenPhoneEndPoint);
+      htmlStartLookPoint.copy(largeScreenPhoneEndLookPoint);
+    }
+
+    if (scrollRange !== 1){
       state.camera.position.copy(
         new THREE.Vector3().lerpVectors(htmlStartPoint, htmlEndPoint, scrollRange)
       );
@@ -164,6 +169,8 @@ export default function CameraController() {
   
       state.camera.rotateZ((Math.PI / 4) * (1-scrollRange));
     } else {
+      const contactRange = scroll.range(0.9, 0.1);
+
       state.camera.position.copy(
         new THREE.Vector3().lerpVectors(htmlEndPoint, htmlEndPoint2, contactRange)
       );
