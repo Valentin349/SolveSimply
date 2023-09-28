@@ -1,12 +1,6 @@
-import { Html, useScroll } from "@react-three/drei";
-import { Vector3 } from "three";
-import Card from "./Card";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function ContactForm() {
-  const scroll = useScroll();
-  const htmlPosition = new Vector3(3, -1, 9.5);
-
   const backgroundColor = "bg-darkGrey";
   const textColor = "text-white";
   const primaryColor = "text-darkPink";
@@ -20,19 +14,10 @@ export default function ContactForm() {
     message: "",
   });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e: any) => {
-    // Reset the form
-    setFormData({
-      name: "",
-      email: "",
-      message: "",
     });
   };
 
@@ -44,7 +29,6 @@ export default function ContactForm() {
           <form
             action={postURL}
             method="POST"
-            onSubmit={handleSubmit}
             className="space-y-4"
           >
             <input type="text" name="_honey" className="hidden" />
