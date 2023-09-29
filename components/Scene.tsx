@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
-import { Canvas } from "@react-three/fiber";
+import React, { useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import Hero from "./HeroScene/Hero";
-import { ScrollControls } from "@react-three/drei";
+import { ScrollControls, useScroll } from "@react-three/drei";
 import CameraController from "./CameraController";
 import DeviceScene from "./DeviceScene/DeviceScene";
 import HtmlScene from "./HtmlScene";

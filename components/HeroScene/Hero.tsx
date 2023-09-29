@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Globe from "./GlobeModel";
 import * as THREE from "three";
-import { Text } from "@react-three/drei";
+import { Text, useScroll } from "@react-three/drei";
 
 export default function Hero() {
   const aspectThreshold = 1.2;
@@ -13,10 +13,14 @@ export default function Hero() {
   const [globePosition, setGlobePosition] = useState(new THREE.Vector3());
   const [heroPosition, setHeroPosition] = useState(new THREE.Vector3());
   const [hovered, setHovered] = useState(false);
+  const scroll = useScroll();
+ 
+  // add scroll container ID so nav bar buttons work
+  scroll.el.id= "ScrollContainer";
 
   const handleClick = () => {
-    // button click
-  };
+    scroll.el.scrollTop = scroll.el.scrollHeight * 0.24
+  }
 
   useEffect(() => {
     const updateScaleAndPosition = () => {
