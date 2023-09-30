@@ -7,8 +7,8 @@ Source: https://sketchfab.com/3d-models/earth-hologram-1ec23b9e71724a3499a29334c
 Title: Earth Hologram
 */
 import * as THREE from "three";
-import React, { useEffect, useRef } from "react";
-import { useGLTF, Trail } from "@react-three/drei";
+import React, { useRef } from "react";
+import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { useFrame } from "@react-three/fiber";
 import Plane from "./PaperPlane";

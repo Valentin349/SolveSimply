@@ -11,6 +11,7 @@ export default function Home() {
     <Scene />
     <Footer/>
     <ScrollIndicator/>
+    
     </>
   )
 }
