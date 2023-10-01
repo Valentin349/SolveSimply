@@ -98,14 +98,15 @@ export default function DeviceScene() {
           rotation-y={Math.PI / 4}
           position={phonePosition}
         >
-          <Html
+          {aspect > 1.2 && <Html
             transform
             portal={{ current: scroll.fixed }}
             position={phoneHtmlPosition}
             rotation-x={-Math.PI / 2}
           >
             <PhoneHtml aspect={aspect} />
-          </Html>
+          </Html> }
+          
         </group>
       </group>
     </group>
