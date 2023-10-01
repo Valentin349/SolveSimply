@@ -8,12 +8,11 @@ Title: Iphone 14 Low Poly
 */
 
 import * as THREE from "three";
-import React, { useRef } from "react";
-import { Html, Mask, useGLTF, useMask, useScroll } from "@react-three/drei";
+import React from "react";
+import { Mask, useGLTF, useScroll } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import img from "../../public/website_example.png";
+import img from "../../public/Phone_screen.png";
 import MonitorScreen from "./MonitorScreen";
-import PhoneHtml from "./PhoneHtml";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -26,7 +25,6 @@ type GLTFResult = GLTF & {
 
 export default function Model(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF("/phone.glb") as GLTFResult;
-  const scroll = useScroll();
 
   return (
     <group {...props} dispose={null}>
@@ -49,9 +47,9 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
             maskId={2}
             scrollStart={0.6}
             scrollDistance={0.2}
-            scrollFactor={6.4}
-            screenPosition={[4, -3, 1]}
-            planeArgs={[10, 8.78, 1]}
+            scrollFactor={1.45}
+            screenPosition={[0, -0.7, 1]}
+            planeArgs={[2, 3.5, 1]}
             image={img}
           />
         </mesh>
