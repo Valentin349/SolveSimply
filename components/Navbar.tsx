@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import logo from "../public/logo.png";
+import logo from "../public/solveSimplyLogo.png";
 import Image from "next/image";
 
 export default function Navbar() {
