@@ -8,8 +8,7 @@ export default function Products(){
             description={
               "Your Very Own Awesome Website: We make special websites that look and feel amazing, showing off your properties and enhancing your image!"
             }
-            price={1000}
-            offerPrice={999}
+            price={399}
           />
 
           <Card
@@ -18,8 +17,8 @@ export default function Products(){
               "A Super Helper for AirBnB: It's like having a friendly personal assistant that answers questions and helps with bookings for your short term rentals, available 24/7!"
             }
             headlineItem={true}
-            price={1000}
-            offerPrice={999}
+            price={799}
+            offerPrice={550}
           />
 
           <Card
@@ -27,8 +26,8 @@ export default function Products(){
             description={
               "Easy Booking Magic: We have a tool that helps you take bookings from guests without any fuss. You get to be in charge and keep all the money!"
             }
-            price={1000}
-            offerPrice={999}
+            price={499}
+            offerPrice={350}
           />
         </div>
     );
