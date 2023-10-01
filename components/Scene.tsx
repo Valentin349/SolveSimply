@@ -17,7 +17,7 @@ export default function Scene() {
           <div
             className={`h-full w-[${progress}%] bg-darkPink transition-all ease-linear duration-300`}
           ></div>
-          <div className="text-center text-sm mt-1">{progress}% loaded</div>
+          <div className="text-center text-sm mt-1">{Math.round(progress)}% loaded</div>
         </div>
       </Html>
     );
