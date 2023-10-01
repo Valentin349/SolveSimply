@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import Hero from "./HeroScene/Hero";
 import { Html, ScrollControls, useProgress } from "@react-three/drei";
@@ -24,8 +24,7 @@ export default function Scene() {
   }
 
   return (
-    <div className="flex h-screen">
-      <div className="w-screen">
+    <div className="flex h-[100svh] w-screen">
         <Canvas id="Canvas" shadows flat>
           <fog attach={"fog"} near={5} far={11} color={"#EAE7DC"} />
 
@@ -38,7 +37,6 @@ export default function Scene() {
             <HtmlScene />
           </ScrollControls>
         </Canvas>
-      </div>
     </div>
   );
 }
