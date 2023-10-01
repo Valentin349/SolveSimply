@@ -12,12 +12,12 @@ export default function HtmlScene() {
 
   useFrame(() => {
     if (ref.current){
-      ref.current.style.transform = `translateY(-${(ref.current.scrollHeight-window.innerHeight + 150) * scroll.range(0.9,0.1)}px)` ;
+      ref.current.style.transform =  `translateY(-${(ref.current.scrollHeight-window.innerHeight + 150) * scroll.range(0.9,0.1)}px)` ;
     }
   })
 
   return (
-    <Html ref={ref} portal={{ current: scroll.fixed }} position={htmlPosition} fullscreen>
+    <Html ref={ref} style={{transition: "transform 90ms ease-out"}} portal={{ current: scroll.fixed }} position={htmlPosition} fullscreen>
       <div className="flex items-center h-screen flex-col mt-48 top-[-2rem]">
         <Products />
         <ContactForm/>
