@@ -1,4 +1,3 @@
-"use client"
 export default function Footer() {
     const companyName = "SolveSimply Ltd"
   return (
