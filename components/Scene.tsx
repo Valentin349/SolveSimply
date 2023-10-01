@@ -24,7 +24,7 @@ export default function Scene() {
   }
 
   return (
-    <div className="flex h-[100svh] w-screen">
+    <div className="flex h-screen w-screen">
         <Canvas id="Canvas" shadows flat>
           <fog attach={"fog"} near={5} far={11} color={"#EAE7DC"} />
 
