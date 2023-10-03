@@ -76,7 +76,7 @@ export default function ContactForm() {
               <textarea
                 id="message"
                 name="message"
-                placeholder="Tell us how we can help you!"
+                placeholder="Consult with us for FREE today!"
                 value={formData.message}
                 onChange={handleChange}
                 rows={8}
