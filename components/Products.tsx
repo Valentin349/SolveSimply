@@ -8,7 +8,7 @@ export default function Products(){
             description={
               "Your Very Own Awesome Website: We make special websites that look and feel amazing, showing off your properties and enhancing your image!"
             }
-            price={399}
+            price={300}
           />
 
           <Card
